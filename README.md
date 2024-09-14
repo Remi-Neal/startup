@@ -48,7 +48,7 @@
 
 ## Diagram
 
-![Rough diagram of the home page](startup/images/mockups/HomePageMockup_09-13-24.png "Home Page Mockup")
+![Rough diagram of the home page](images/mockups/HomePageMockup_09-13-24.png "Home Page Mockup")
 
 ## Links
 Startup project for CS 260 Fall '24
