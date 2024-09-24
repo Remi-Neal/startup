@@ -326,3 +326,66 @@
 
 <p>Authors such as <span>ee cummings</span> often used unconventional structure.</p>
 ```
+### Input
+- Early HTML had these types to take user input
+
+|Element|Meaning|Example|
+|---|---|---|
+|`form`|Input container and submission|`<form action="form.html" method="post">`|
+|`fieldset`|Labeled input grouping|`<fieldset> ... </fieldset>`|
+|`input`|Multiple types of user input|`<input type="" />`|
+|`select`|Selection dropdown|`<select><option>1</option></select>`|
+|`optgroup`|Grouped selection dropdown|`<optgroup><option>1</option></optgroup>`|
+|`option`|Selection option|`<option selected>option2</option>`|
+|`textarea`|Multiline text input|`<textarea></textarea>`|
+|`label`|Individual input label|`<label for="range">Range: </label>`|
+|`output`|Output of input|`<output for="range">0</output>`|
+|`meter`|Display value with a known range|`<meter min="0" max="100" value="50"></meter>`|
+- Form elements
+	- Main purpose is to take user inputs
+- Input types
+	- `<input type="one of these" />`
+
+| Type           | Meaning                           |
+| -------------- | --------------------------------- |
+| text           | Single line textual value         |
+| password       | Obscured password                 |
+| email          | Email address                     |
+| tel            | Telephone number                  |
+| url            | URL address                       |
+| number         | Numerical value                   |
+| checkbox       | Inclusive selection               |
+| radio          | Exclusive selection               |
+| range          | Range limited number              |
+| date           | Year, month, day                  |
+| datetime-local | Date and time                     |
+| month          | Year, month                       |
+| week           | Week of year                      |
+| color          | Color                             |
+| file           | Local file                        |
+| submit         | button to trigger form submission |
+- Input Attributes
+	- `<input name="" value="" required checked />`
+
+|Attribute|Meaning|
+|---|---|
+|name|The name of the input. This is submitted as the name of the input if used in a form|
+|disabled|Disables the ability for the user to interact with the input|
+|value|The initial value of the input|
+|required|Signifies that a value is required in order to be valid|
+- Validating input
+	- Many elements require valid inputs natively before a user can submit
+	- The required attribute is one of these validating options
+	- The pattern attribute exists default on
+		- text
+		- search
+		- url
+		- tel
+		- email
+		- password
+	- **YOU SHOULD ALSO HAVE VALIDATION IN YOUR JAVASCRIPT THAT VALIDATES EVERYTHING BEFORE THEY CAN SUBMIT** 
+	- There are CSS selectors that can visualize a valid input
+		- This is part of good UX design. Giving good feedback to a user makes the user feel better
+### Media
+- 
+## CSS
