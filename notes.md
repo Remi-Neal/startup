@@ -255,3 +255,74 @@
 - Is not a text editor but a text viewer
 - It offers many great features for exploring files
 	- Especially large files
+
+## HTML
+### Structure
+- HTML provides structures to websites
+- Common HTML structural elements: `body`, `header`, `footer`, `main`, `section`, `aside`, `p`, `table`, `ol/ul`, `div`, and `span`
+- The top level element is the `body`
+	- x
+- `body` has 3 children or subelements 
+	- `header`, `main`, and `footer`
+- The `header` contains
+	- `p` - paragraphs
+	- `span` 
+	- `nav` - navigation containing `div`
+	- `div` - divisions of sub-content
+- The `footer` has a content division with a single span
+- Example
+```
+<body>
+  <p>Body</p>
+  <header>
+    <p>Header - <span>Span</span></p>
+    <nav>
+      Navigation
+      <div>Div</div>
+      <div>Div</div>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <p>Section</p>
+      <ul>
+        <li>List</li>
+        <li>List</li>
+        <li>List</li>
+      </ul>
+    </section>
+    <section>
+      <p>Section</p>
+      <table>
+        <tr>
+          <th>Table</th>
+          <th>Table</th>
+          <th>Table</th>
+        </tr>
+        <tr>
+          <td>table</td>
+          <td>table</td>
+          <td>table</td>
+        </tr>
+      </table>
+    </section>
+    <aside>
+      <p>Aside</p>
+    </aside>
+  </main>
+
+  <footer>
+    <div>Footer - <span>Span</span></div>
+  </footer>
+</body>
+```
+- There are two different flavors of structure elements: block and inline
+	- Block elements signify distinct blocks in the content structure
+	- Inline elements are meant to be in the content flow of a block element
+	- ex
+```
+<div>He said <b>don't</b> cross the beams.</div>
+
+<p>Authors such as <span>ee cummings</span> often used unconventional structure.</p>
+```
