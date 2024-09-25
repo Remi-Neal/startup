@@ -389,3 +389,45 @@
 ### Media
 - 
 ## CSS
+### Basics
+- Css was created to add pretty layouts to raw HTML 
+	- based on the desires of: users, developers, and browsers
+- Css now can
+	- animate webpages
+	- upload custom fonts
+	- respond to user action
+	- dynamically alter entire webpages
+- There are different ways to associate Css with HTML
+- I.E.
+```HTML
+<p styzle="color:green">CSS</p>
+```
+ or
+```HTML
+<style>
+    p {
+      color: green;
+    }
+  </style>
+```
+or
+```HTML
+<link rel="stylesheet" href="styles.css" />
+```
+plus
+```CSS
+p {
+  color: green;
+}
+```
+
+### Cascading Style
+- 
+### Selectors
+- ...
+### Fonts
+- ...
+### Grid
+- ...
+### Animation
+- ...
