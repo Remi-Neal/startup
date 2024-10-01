@@ -77,8 +77,9 @@
    - `git clone https://github.com/url-to-repo-on-github`
 - add files to git
     - `git add file.name`
+	    - using `git add *` adds all not tract files in your repo
 - commit, add, and add message to git
-    - `git commit -am "my comments here with proper etiquette:`
+    - `git commit -am "my comments here with proper etiquette"`
 - send edits to GitHub
     - `git push`
 - check for changes on GitHub
@@ -420,14 +421,160 @@ p {
   color: green;
 }
 ```
-
-### Cascading Style
-- 
 ### Selectors
-- ...
+- HTML Selection
+	- You can select any html element by element name
+	- Doing this allows the style to cascade to all sub elements
+	- You can also select everything on the page by using the start (\*) selector
+- Combinators
+	- CSS allows you to add specificity to which elements you select based on their relation to other elements
+
+| Combinator       | Meaning                    | Example        | Description                                |
+| ---------------- | -------------------------- | -------------- | ------------------------------------------ |
+| Descendant       | A list of descendants      | `body section` | Any section that is a descendant of a body |
+| Child            | A list of direct children  | `section > p`  | Any p that is a direct child of a section  |
+| General sibling  | A list of siblings         | `div ~ p`      | Any p that has a div sibling               |
+| Adjacent sibling | A list of adjacent sibling | `div + p`      | Any p that has an adjacent div sibling     |
+- Class Selection
+	- CSS allows you to select all elements of a specific class
+	- You select these elements by placing a period in from of you class name `.class-name`
+	- You can select html elements with a specific class using this formula `p.class-name`
+- ID Selection
+	- CSS allows you to select elements based on ID as well using a '#' `#id-name`
+- Attribute Selection
+	- CSS also allows you to select elements based any attributes 
+	- ex
+		- `a[href='google.com'`
+		- `p[class='summary'`
+	- Full list of attribute selection from [MDM](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) 
+```CSS
+/* <a> elements with a title attribute */
+a[title] {
+  color: purple;
+}
+
+/* <a> elements with an href matching "https://example.org" */
+a[href="https://example.org"]
+{
+  color: green;
+}
+
+/* <a> elements with an href containing "example" */
+a[href*="example"] {
+  font-size: 2em;
+}
+
+/* <a> elements with an href ending ".org", case-insensitive */
+a[href$=".org" i] {
+  font-style: italic;
+}
+
+/* <a> elements whose class attribute contains the word "logo" */
+a[class~="logo"] {
+  padding: 2px;
+}
+```
+- Pseudo Selectors
+	- Pseudo selectors allow for dynamic changes to css by updating based on various states
+		- a nice one is `p:hover` that changes based on if the mouse is hovering over an element
+	- Here is a long list of pseudo selectors from [MDM](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes) 
+
+| Pseudo Selector                                                                               | Description |
+| --------------------------------------------------------------------------------------------- | ----------- |
+| A                                                                                             |             |
+| [`:active`](https://developer.mozilla.org/en-US/docs/Web/CSS/:active)                         |             |
+| [`:autofill`](https://developer.mozilla.org/en-US/docs/Web/CSS/:autofill)                     |             |
+| [`:any-link`](https://developer.mozilla.org/en-US/docs/Web/CSS/:any-link)                     |             |
+| B                                                                                             |             |
+| [`:blank`](https://developer.mozilla.org/en-US/docs/Web/CSS/:blank)                           |             |
+| C                                                                                             |             |
+| [`:checked`](https://developer.mozilla.org/en-US/docs/Web/CSS/:checked)                       |             |
+| [`:current`](https://developer.mozilla.org/en-US/docs/Web/CSS/:current)                       |             |
+| D                                                                                             |             |
+| [`:default`](https://developer.mozilla.org/en-US/docs/Web/CSS/:default)                       |             |
+| [`:defined`](https://developer.mozilla.org/en-US/docs/Web/CSS/:defined)                       |             |
+| [`:dir()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:dir)                             |             |
+| [`:disabled`](https://developer.mozilla.org/en-US/docs/Web/CSS/:disabled)                     |             |
+| E                                                                                             |             |
+| [`:empty`](https://developer.mozilla.org/en-US/docs/Web/CSS/:empty)                           |             |
+| [`:enabled`](https://developer.mozilla.org/en-US/docs/Web/CSS/:enabled)                       |             |
+| F                                                                                             |             |
+| [`:first`](https://developer.mozilla.org/en-US/docs/Web/CSS/:first)                           |             |
+| [`:first-child`](https://developer.mozilla.org/en-US/docs/Web/CSS/:first-child)               |             |
+| [`:first-of-type`](https://developer.mozilla.org/en-US/docs/Web/CSS/:first-of-type)           |             |
+| [`:focus`](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus)                           |             |
+| [`:focus-visible`](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible)           |             |
+| [`:focus-within`](https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-within)             |             |
+| [`:fullscreen`](https://developer.mozilla.org/en-US/docs/Web/CSS/:fullscreen)                 |             |
+| [`:future`](https://developer.mozilla.org/en-US/docs/Web/CSS/:future)                         |             |
+| G                                                                                             |             |
+| H                                                                                             |             |
+| [`:has()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:has)                             |             |
+| [`:host`](https://developer.mozilla.org/en-US/docs/Web/CSS/:host)                             |             |
+| [`:host-context()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:host-context)           |             |
+| [`:hover`](https://developer.mozilla.org/en-US/docs/Web/CSS/:hover)                           |             |
+| I                                                                                             |             |
+| [`:indeterminate`](https://developer.mozilla.org/en-US/docs/Web/CSS/:indeterminate)           |             |
+| [`:in-range`](https://developer.mozilla.org/en-US/docs/Web/CSS/:in-range)                     |             |
+| [`:invalid`](https://developer.mozilla.org/en-US/docs/Web/CSS/:invalid)                       |             |
+| [`:is()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:is)                               |             |
+| J                                                                                             |             |
+| K                                                                                             |             |
+| L                                                                                             |             |
+| [`:lang()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:lang)                           |             |
+| [`:last-child`](https://developer.mozilla.org/en-US/docs/Web/CSS/:last-child)                 |             |
+| [`:last-of-type`](https://developer.mozilla.org/en-US/docs/Web/CSS/:last-of-type)             |             |
+| [`:left`](https://developer.mozilla.org/en-US/docs/Web/CSS/:left)                             |             |
+| [`:link`](https://developer.mozilla.org/en-US/docs/Web/CSS/:link)                             |             |
+| [`:local-link`](https://developer.mozilla.org/en-US/docs/Web/CSS/:local-link)                 |             |
+| M                                                                                             |             |
+| [`:modal`](https://developer.mozilla.org/en-US/docs/Web/CSS/:modal)                           |             |
+| N                                                                                             |             |
+| [`:not()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:not)                             |             |
+| [`:nth-child()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child)                 |             |
+| [`:nth-last-child()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-last-child)       |             |
+| [`:nth-last-of-type()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-last-of-type)   |             |
+| [`:nth-of-type()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-of-type)             |             |
+| O                                                                                             |             |
+| [`:only-child`](https://developer.mozilla.org/en-US/docs/Web/CSS/:only-child)                 |             |
+| [`:only-of-type`](https://developer.mozilla.org/en-US/docs/Web/CSS/:only-of-type)             |             |
+| [`:optional`](https://developer.mozilla.org/en-US/docs/Web/CSS/:optional)                     |             |
+| [`:out-of-range`](https://developer.mozilla.org/en-US/docs/Web/CSS/:out-of-range)             |             |
+| P                                                                                             |             |
+| [`:past`](https://developer.mozilla.org/en-US/docs/Web/CSS/:past)                             |             |
+| [`:paused`](https://developer.mozilla.org/en-US/docs/Web/CSS/:paused)                         |             |
+| [`:picture-in-picture`](https://developer.mozilla.org/en-US/docs/Web/CSS/:picture-in-picture) |             |
+| [`:placeholder-shown`](https://developer.mozilla.org/en-US/docs/Web/CSS/:placeholder-shown)   |             |
+| [`:playing`](https://developer.mozilla.org/en-US/docs/Web/CSS/:playing)                       |             |
+| [`:popover-open`](https://developer.mozilla.org/en-US/docs/Web/CSS/:popover-open)             |             |
+| Q                                                                                             |             |
+| R                                                                                             |             |
+| [`:read-only`](https://developer.mozilla.org/en-US/docs/Web/CSS/:read-only)                   |             |
+| [`:read-write`](https://developer.mozilla.org/en-US/docs/Web/CSS/:read-write)                 |             |
+| [`:required`](https://developer.mozilla.org/en-US/docs/Web/CSS/:required)                     |             |
+| [`:right`](https://developer.mozilla.org/en-US/docs/Web/CSS/:right)                           |             |
+| [`:root`](https://developer.mozilla.org/en-US/docs/Web/CSS/:root)                             |             |
+| S                                                                                             |             |
+| [`:scope`](https://developer.mozilla.org/en-US/docs/Web/CSS/:scope)                           |             |
+| [`:state()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:state)                         |             |
+| T                                                                                             |             |
+| [`:target`](https://developer.mozilla.org/en-US/docs/Web/CSS/:target)                         |             |
+| [`:target-within`](https://developer.mozilla.org/en-US/docs/Web/CSS/:target-within)           |             |
+| U                                                                                             |             |
+| [`:user-invalid`](https://developer.mozilla.org/en-US/docs/Web/CSS/:user-invalid)             |             |
+| V                                                                                             |             |
+| [`:valid`](https://developer.mozilla.org/en-US/docs/Web/CSS/:valid)                           |             |
+| [`:visited`](https://developer.mozilla.org/en-US/docs/Web/CSS/:visited)                       |             |
+| W                                                                                             |             |
+| [`:where()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:where)                         |             |
+
 ### Fonts
-- ...
+- 
 ### Grid
 - ...
 ### Animation
 - ...
+### Flex
+- ...
+### Media Queries
+- 
