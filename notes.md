@@ -569,11 +569,63 @@ a[class~="logo"] {
 | [`:where()`](https://developer.mozilla.org/en-US/docs/Web/CSS/:where)                         |             |
 
 ### Fonts
-- 
+- Fonts are important to all websites
+- Font Families
+	- CSS uses `font-families` to define what fonts a website should use
+		- popular ones are `serif`, `sans-serif`, `fixed`, and `symbol`
+			- serif fonts have a little make on the ends of letters
+			- fixed fonts have characters that are all the same width
+			- symbol are non-language characters like wingdings
+- Importing Fonts (1 of 2)
+	- Fonts can be imported to CSS using the `@font-face` rule
+	- You provide the font name and the url to the font
+```CSS
+@font-face {
+  font-family: 'Quicksand';
+  src: url('https://cs260.click/fonts/quicksand.ttf');
+}
+
+p {
+  font-family: Quicksand;
+}
+```
+- Importing Fonts (2 of 2)
+	- fonts can also be imported directly from a service like google which provides open source fonts
+```CSS
+@import url('https://fonts.googleapis.com/css2?family=Rubik Microbe&display=swap');
+
+p {
+  font-family: 'Rubik Microbe';
+}
+```
 ### Grid
-- ...
+- The grid layout is useful for creating a responsive [grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Basic_concepts_of_grid_layout)
+- Declared using `display: grid;` and cascades to the children of the element
+- `grid-template-column` property specifies the column layout
+- `grid-template-rows` property specifies the row size
+- `grid-gap` property defines the gap between elements
+- You can make dynamically resized elements by using the function `repeat()` to constantly update
+	- You can then define the `auto-fill` to automatically fill the space
+- `fr` refers to a fractional unit
+- ex
+```CSS
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: 300px;
+  grid-gap: 1em;
+}
+```
 ### Animation
-- ...
+- Animation can be done with the `animation` property with and by defining a `@keyframe`
+- To animate an element you must
+	- use `animation-name: the-name;` to associate an element with a `@keyframe`
+	- use `animation-duration: time;` to define how long the animation should take
+- To create a `@keyframe`
+	- define a `@keyframe the-name{...}`
+	- define key points in the animation
+		- use `from{...}` and `to{...}` create start and end points
+		- More docs [here](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animations/Using_CSS_animations)
 ### Flex
 - ...
 ### Media Queries
