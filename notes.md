@@ -446,7 +446,7 @@ p {
 	- ex
 		- `a[href='google.com'`
 		- `p[class='summary'`
-	- Full list of attribute selection from [MDM](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) 
+	- Full list of attribute selection from [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors) 
 ```CSS
 /* <a> elements with a title attribute */
 a[title] {
@@ -477,7 +477,7 @@ a[class~="logo"] {
 - Pseudo Selectors
 	- Pseudo selectors allow for dynamic changes to css by updating based on various states
 		- a nice one is `p:hover` that changes based on if the mouse is hovering over an element
-	- Here is a long list of pseudo selectors from [MDM](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes) 
+	- Here is a long list of pseudo selectors from [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes) 
 
 | Pseudo Selector                                                                               | Description |
 | --------------------------------------------------------------------------------------------- | ----------- |
@@ -598,6 +598,25 @@ p {
   font-family: 'Rubik Microbe';
 }
 ```
+### Colors
+- CSS allows you to use different color definitions to color your website
+- When using colors be aware of potential accessibility issues like color blindness
+- Here is a list of definitions
+
+| Type              | Explanation                                                                                                                                                                                                                                                                                                                                                                        | Notation                                                           |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| keywords          | Predefined colors that you can add with simple words                                                                                                                                                                                                                                                                                                                               |                                                                    |
+| rgb()/hexadecimal | This system allows you to define colors based on red, green, and blue values. You can additionally add an alpha value to change it's transparency                                                                                                                                                                                                                                  | \#rrggbbaa<br>\#rrggbb<br>\#rgb                                    |
+| hsl()/hwb()/hue   | This system defines colors based on hue, saturation, and lightness or hue, whiteness, and blackness with an optional alpha value for transparency. This is a less intuitive system for some people unless you're use to Photoshop. This system is based on percentages and angles on a color wheel.                                                                                | hsl(\<angle> 100% 100% / 50%) <br><br>hwb(\<angle> 100% 50% / 60%) |
+| lab/oklab         | The lab() function gives colors in the CIE L*a*b* color space. oklab() function gives colors in the OKLab color space. They specify the: 'l', lightness; 'a', red/green axis; and 'b', blue/yellow axis. This also has an optional alpha value for transparency. These are defined by +/- percentages or decimals except the 'l' value ranges from 0%/0, black, and 100%/1, white. | lab(50% 40% -20%) <br>oklab(0.5 -0.2 0.8 )                         |
+| relative colors   | CSS allows you to define relative colors. There is a [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors) page dedicated to it to read up on it                                                                                                                                                                                                      |                                                                    |
+- Here is a list of keywords for colors in CSS and a [MDM](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color) page on it
+
+| Keyword | Color                                      |
+| ------- | ------------------------------------------ |
+| blue    | <span style="background: blue">____</span> |
+|         |                                            |
+
 ### Grid
 - The grid layout is useful for creating a responsive [grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Basic_concepts_of_grid_layout)
 - Declared using `display: grid;` and cascades to the children of the element
@@ -626,7 +645,45 @@ p {
 	- define key points in the animation
 		- use `from{...}` and `to{...}` create start and end points
 		- More docs [here](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animations/Using_CSS_animations)
-### Flex
-- ...
-### Media Queries
+### Flexbox
+- Flex allows you to change the visuals of your website in response to changes from the user
+	- [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox)
+- To make an object a flex object
+	- `display: flex;`
+- `flex-direction` has multiple orientations
+	- `column`
+	- `row`
+	- `column-reverse`
+	- `row-reverse`
+		- These last two move the objects to the bottom or right respectively
+- You can create divisions on the screen with flex using this syntax
+	- `flex: 1 20px;`
+	- This declaration has a few parts
+		- The `1` refers to the proportion of the screen the element will take up
+		- The `20px` gives the base hight of the element
+	- `flex: 0 20em` means this element will only take up `20em` and won't grow to fill their proportion of the screen
 - 
+### Media Queries
+- Media queries allow us to design a website to dynamically change designs based on screen size
+	- [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_media_queries/Using_media_queries)
+- Syntax
+```css
+@media (orientation: portrait) {
+  main {
+    flex-direction: column;
+  }
+}
+
+@media (max-height: 700px) {
+  header {
+    display: none;
+  }
+  footer {
+    display: none;
+  }
+}
+```
+- The `@media` acts as a little css file that only gets called on if the given conditions are met
+- There is a lot of ways you can change your website based on media queries so go to MDN and read some more and add notes
+## Frameworks (Bootstrap)
+- ...
