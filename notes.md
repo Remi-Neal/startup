@@ -612,10 +612,10 @@ p {
 | relative colors   | CSS allows you to define relative colors. There is a [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors) page dedicated to it to read up on it                                                                                                                                                                                                      |                                                                    |
 - Here is a list of keywords for colors in CSS and a [MDM](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color) page on it
 
-| Keyword | Color                                      |
-| ------- | ------------------------------------------ |
-| blue    | <span style="background: blue">____</span> |
-|         |                                            |
+| Keyword | Color                                 |
+| ------- | ------------------------------------- |
+| blue    | <span style="color: blue">@@@@</span> |
+|         |                                       |
 
 ### Grid
 - The grid layout is useful for creating a responsive [grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Basic_concepts_of_grid_layout)
