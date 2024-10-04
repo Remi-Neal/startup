@@ -601,6 +601,7 @@ p {
 ### Colors
 - CSS allows you to use different color definitions to color your website
 - When using colors be aware of potential accessibility issues like color blindness
+- You can also make [gradients](https://developer.mozilla.org/en-US/docs/Web/CSS/gradient) of colors
 - Here is a list of definitions
 
 | Type              | Explanation                                                                                                                                                                                                                                                                                                                                                                        | Notation                                                           |
@@ -610,13 +611,31 @@ p {
 | hsl()/hwb()/hue   | This system defines colors based on hue, saturation, and lightness or hue, whiteness, and blackness with an optional alpha value for transparency. This is a less intuitive system for some people unless you're use to Photoshop. This system is based on percentages and angles on a color wheel.                                                                                | hsl(\<angle> 100% 100% / 50%) <br><br>hwb(\<angle> 100% 50% / 60%) |
 | lab/oklab         | The lab() function gives colors in the CIE L*a*b* color space. oklab() function gives colors in the OKLab color space. They specify the: 'l', lightness; 'a', red/green axis; and 'b', blue/yellow axis. This also has an optional alpha value for transparency. These are defined by +/- percentages or decimals except the 'l' value ranges from 0%/0, black, and 100%/1, white. | lab(50% 40% -20%) <br>oklab(0.5 -0.2 0.8 )                         |
 | relative colors   | CSS allows you to define relative colors. There is a [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors) page dedicated to it to read up on it                                                                                                                                                                                                      |                                                                    |
-- Here is a list of keywords for colors in CSS and a [MDM](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color) page on it
+| transparent       | Makes things completely transparent                                                                                                                                                                                                                                                                                                                                                |                                                                    |
+- Here is a list of keywords for colors in CSS 
 
-| Keyword | Color                                 |
-| ------- | ------------------------------------- |
-| blue    | <code style="color: blue">@@@@</code> |
-|         |                                       |
+*\*note*: The colors won't render with the markdown parser on GitHub. I am using Obsidian which supports it and it appears that VSCode's markdown preview does as well.
 
+| Keyword             | Color                                                               |
+| ------------------- | ------------------------------------------------------------------- |
+| black               | <code style="color: black">@@@@</code>                              |
+| silver              | <code style="color: silver">@@@@</code>                             |
+| gray                | <code style="color: gray">@@@@</code>                               |
+| white               | <code style="color: white">@@@@</code>                              |
+| maroon              | <code style="color: maroon">@@@@</code>                             |
+| red                 | <code style="color: red">@@@@</code>                                |
+| purple              | <code style="color: purple">@@@@</code>                             |
+| fuchsia             | <code style="color: fuchsia">@@@@</code>                            |
+| green               | <code style="color: green">@@@@</code>                              |
+| lime                | <code style="color: lime">@@@@</code>                               |
+| olive               | <code style="color: olive">@@@@</code>                              |
+| yellow              | <code style="color: yellow">@@@@</code>                             |
+| navy                | <code style="color: navy">@@@@</code>                               |
+| blue                | <code style="color: blue">@@@@</code>                               |
+| teal                | <code style="color: teal">@@@@</code>                               |
+| aqua                | <code style="color: aqua">@@@@</code>                               |
+| about 150<br>more @ | [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color) |
+- Not important to this course but you should also know about [rebeccapurple](https://medium.com/@valgaze/the-hidden-purple-memorial-in-your-web-browser-7d84813bb416) <code style="color: rebeccapurple"> @@@@ </code>
 ### Grid
 - The grid layout is useful for creating a responsive [grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout/Basic_concepts_of_grid_layout)
 - Declared using `display: grid;` and cascades to the children of the element
