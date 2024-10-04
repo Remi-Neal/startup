@@ -614,7 +614,7 @@ p {
 
 | Keyword | Color                                 |
 | ------- | ------------------------------------- |
-| blue    | <span style="color: blue">@@@@</span> |
+| blue    | <code style="color: blue">@@@@</code> |
 |         |                                       |
 
 ### Grid
