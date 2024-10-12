@@ -53,3 +53,11 @@
 ## Links
 Startup project for CS 260 Fall '24
 [Notes for CS 260](./notes.md)
+
+## Update
+css project
+- Added navbar using bootstrap to all pages
+- Created a main.css file to create a consistent style on all webpages
+- Imported font from Google Fonts to use on the website
+- Made the grid of links on index.html responsive to screen orientation
+- Added favicon to all webpages
