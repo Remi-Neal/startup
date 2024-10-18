@@ -705,4 +705,66 @@ p {
 - The `@media` acts as a little css file that only gets called on if the given conditions are met
 - There is a lot of ways you can change your website based on media queries so go to MDN and read some more and add notes
 ## Frameworks (Bootstrap)
-- ...
+- CSS Frameworks allow your website's css to be consistent between browsers and allow for easier dynamic resizing, like going from mobile to computer
+- For this course we us Bootstrap but Tailwind CSS is becoming more popular
+- [Quick start guide](https://getbootstrap.com/docs/5.2/getting-started/introduction/)
+- CSS Link
+```HTML
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    ...
+  </body>
+</html>
+```
+- JavaScript link (needed for some functionality like dropdowns)
+```HTML
+<body>
+  ...
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"
+  ></script>
+</body>
+```
+- You can also download bootstrap to your project with NPM
+```Bash
+npm install bootstrap@5.2.3
+```
+- Bootstrap has predefined styles you can easily implement by adding to the class list of an html element
+```HTML
+// Bootstrap styled button
+<button type="button" class="btn btn-primary">Bootstrap</button>
+
+// Default browser styled button
+<button type="button">Plain</button>
+```
+- Here are some BootStrap options you can put in you project
+
+| Class Option | Element                                                                    | Explanation |
+| ------------ | -------------------------------------------------------------------------- | ----------- |
+|              | [Accordian](https://getbootstrap.com/docs/5.2/components/accordion/)       |             |
+|              | [Alerts](https://getbootstrap.com/docs/5.2/components/alerts/)             |             |
+|              | [Badges](https://getbootstrap.com/docs/5.2/components/badge/)              |             |
+|              | [Breadcrumb](https://getbootstrap.com/docs/5.2/components/breadcrumb/)     |             |
+|              | [Button](https://getbootstrap.com/docs/5.2/components/buttons/)            |             |
+|              | [Button group](https://getbootstrap.com/docs/5.2/components/button-group/) |             |
+|              | [Card](https://getbootstrap.com/docs/5.2/components/card/)                 |             |
+|              | [Carousel](https://getbootstrap.com/docs/5.2/components/carousel/)         |             |
+|              | [Close Button](https://getbootstrap.com/docs/5.2/components/close-button/) |             |
+|              | ect...                                                                     |             |
+
+
+## JavaScript
+###
