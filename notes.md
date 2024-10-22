@@ -767,4 +767,405 @@ npm install bootstrap@5.2.3
 
 
 ## JavaScript
-###
+### Basics
+- Officially called ECMAScript
+	- Weakly typed
+		- Has types but does not require you to declare them
+		- Types will be smushed into another type if the equations require it
+		- ie `console.log('5' + 6) -> '56'` 
+	- Borrows concepts from C, Java, and Schemes
+- `console.log(...)` is a great way to debug
+	- gives an output in the browser's console
+- There are a few ways to declare a function
+	- `function funcName(){...}`
+	- `() => {...}`
+- Comments are declared like this
+	- `// Line comments`
+```JavaScript
+/*
+Block comments
+*/
+```
+- Semicolons signal the end of a line
+	- They are not necessary but will aid in code readability
+- `{}` define a scope which has implications for variables, if they are seen or not
+### Console
+- JavaScript console gives programers flexibility in debugging
+	- It's similar to the terminal or command line on a computer but is it's own distinct object in JavaScript
+- The console object provides functionality for outputting the value of text and objects, running timers, and counting iterations
+- You can also run javascript from the console directly symply by typing or pasting it in
+- Console options [MDN](https://developer.mozilla.org/en-US/docs/Web/API/console) 
+```ECMAScript
+console.log('Log this') // -> Log this
+console.time('timer lable') // Starts a timer to track the speed of a function
+console.endTime('timer lable') // Ends a timer and gives the time in milliseconds
+console.count('a') // Counts the amount of times a function is called (using the lable in the parenthesis)
+```
+- ⌥+⌘+I  for Mac or \^+Shift+I for Windows and Linux to open dev tools and access the console in Google Chrome
+	- also fn+f12 for Mac and f12 for windows and linux
+### Adding JS to HTML
+- You can add JavaScript to HTML in a few ways
+- Way 1
+	- Wrapping your JS in the `<script>...</script>` tags directly in your HTML files
+		- This can be a bit messy but for simple JS can make your project less complicated to look at
+- Way 2
+	- Adding a link to a .js file using `<script src="file.js"></script>` 
+		- This is useful when working with more complicated JS
+		- It is recommended to put this at the very end of your main section that way all your HTML is rendered and in scope of you JS
+- Way 3
+	- Some HTML elements have built in attributes that create event listeners for different DOM events, events that happen in your website, and call that JS function/code
+		- This can be nice to see the full functionality of a event generating element directly in the HTML instead of using the `element.addEventListener(event,function)` in your JS file
+		- Typically not used from what I can tell
+	- ex
+``` HTML
+<button onclick="sayHello()">Say Hello</button> 
+<!-- Calls the "sayHello()" JS function when selected -->
+
+```
+### Type and Construct
+- There are two ways to declare a variable in JavaScript `let` and `const`
+	- there is a third, `var`, but it is just used for legacy code, prior to the addition to `let`, because it has some strange functionality and is harder to debug
+- `let` defines a variable that can change its value while `const` cannot change it's value
+	- default to using `const` where possible to insure less bugs and safer code
+- There are 7 different primitive types native to JavaScript
+
+|    Type     |                                                    Meaning |
+| :---------: | ---------------------------------------------------------: |
+|   `Null`    | The type of a variable that has not been assigned a value. |
+| `Undefined` |          The type of a variable that has not been defined. |
+|  `Boolean`  |                                         `true` or `false`. |
+|  `Number`   |                                    A 64-bit signed number. |
+|  `BigInt`   |                           A number of arbitrary magnitude. |
+|  `String`   |                          A textual sequence of characters. |
+|  `Symbol`   |                                            A unique value. |
+- Boolean, Number, and String are the most common but you will probably run into Null and Undefined as well
+- JavaScript also has several object types
+	- The most frequent ones are
+
+| Type       | Use                                                                                    | Example                  |
+| ---------- | -------------------------------------------------------------------------------------- | ------------------------ |
+| `Object`   | A collection of properties represented by name-value pairs. Values can be of any type. | `{a:3, b:'fish'}`        |
+| `Function` | An object that has the ability to be called.                                           | `function a() {}`        |
+| `Date`     | Calendar dates and times.                                                              | `new Date('1995-12-17')` |
+| `Array`    | An ordered sequence of any type.                                                       | `[3, 'fish']`            |
+| `Map`      | A collection of key-value pairs that support efficient lookups.                        | `new Map()`              |
+| `JSON`     | A lightweight data-interchange format used to share information across programs.       | `{"a":3, "b":"fish"}`    |
+- More of the above on [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures)
+### Type conversion
+- JavaScript is a weakly typed language and can allow for some type conversion as needed
+- ex
+```JavaScript
+2 + '3';
+// OUTPUT: '23'
+2 * '3';
+// OUTPUT: 6
+[2] + [3];
+// OUTPUT: '23'
+true + null;
+// OUTPUT: 1
+true + undefined;
+// OUTPUT: NaN
+```
+- This functionality can get a bit confusing but just be aware of it because your code might have some unexpected outcomes because of it
+- Also be aware that `==` and `===` are different operators
+	- `==` coerces the variables then checks if the statement is true 
+		- sometimes referred to truthy or falsy
+	- `===` checks to see if the type and the value are equivalent
+### Conditionals and Loops
+- If, If Else, and Else create conditional statements that spread over multiple lines
+```JavaScript
+if (a === 1) {
+  //...
+} else if (b === 2) {
+  //...
+} else {
+  //...
+}
+```
+- Ternary operation is a great way to create a compact If Else statement
+```JavaScript
+a === 1 ? console.log(1) : console.log('not 1');
+// The same as
+if (a === 1) {
+  console.log(1)
+} else {
+  console.log('not 1')
+}
+```
+- Ternary operations (at least for me) can be a bit confusing
+	- here is a bit of a break down
+	- `a === 1` is the conditional statement that is either true or false
+	- `?` asks if the statement is true or false then picks the appropriate response
+	- `console.log(1) : console.log('not 1');` defines what to do if the statement is true, the left statement, or if the statement is false, the right statement
+- You can also use other boolean expressions to add extra complexity to your conditional statement
+
+| Expression        | Use |
+| ----------------- | --- |
+| `&&`              | and |
+| <code>\|\|</code> | or  |
+| `!`               | not |
+- Loops are used in many applications to iterate until a condition is met (or to break your code if you have a never ending loop)
+- JavaScript has many different types of loops 
+
+| Loop                       | Use                                                                                                                       |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `for() {}`                 | Repeat the bracketed code until the conditional in the parenthesis is true                                                |
+| `do{} while()`             | Do the bracketed code until the conditional in the parenthesis is false (Does the code first then checks the conditional) |
+| `while() {}`               | Do the bracketed code until the conditional in the parenthesis is false (Checks the conditional first then does the code) |
+| `for(const key in obj) {}` | Does the bracketed code until every key in a key/value pair or index in an array has been iterated over                   |
+| `for(const val of obj) {}` | Does the bracketed code until every value in a key/value pair or value in an array has been iterated over                 |
+
+- For loop example
+	- the `i++` is the increment operator and is equivalent to `i = i + 1`
+		- a similar operator is `i--`
+```JavaScript
+for (let i = 0; i < 2; i++) {
+  console.log(i);
+}
+// OUTPUT: 0 1
+```
+- Do While loop example
+```JavaScript
+let i = 0;
+do {
+  console.log(i);
+  i++;
+} while (i < 2);
+// OUTPUT: 0 1
+```
+- While loop example
+```JavaScript
+let i = 0;
+while (i < 2) {
+  console.log(i);
+  i++;
+}
+// OUTPUT: 0 1
+```
+- For In loop example
+	- gives the `name` of the object or the index in an array
+```JavaScript
+const obj = { a: 1, b: 'fish' };
+for (const name in obj) {
+  console.log(name);
+}
+// OUTPUT: a
+// OUTPUT: b
+
+const arr = ['a', 'b'];
+for (const name in arr) {
+  console.log(name);
+}
+// OUTPUT: 0
+// OUTPUT: 1
+```
+- For Of loop example
+	- gives the `values` in an array or object
+```JavaScript
+const arr = ['a', 'b'];
+for (const val of arr) {
+  console.log(val);
+}
+// OUTPUT: 'a'
+// OUTPUT: 'b'
+```
+- JavaScript offers `break` and `continue` statements to add some extra logic to your loops
+	- `break` will stop your loops entirely "breaking" you out of them
+	- `continue` will stop your current iteration and "continue" onto the next iteration
+	- ex
+```JavaScript
+let i = 0;
+while (true) {
+  console.log(i);
+  if (i === 0) {
+    i++;
+    continue;
+  } else {
+    break;
+  }
+}
+// OUTPUT: 0 1
+```
+### Strings
+- Strings can be declared in JavaScript using single quotes , double quotes , or backticks
+```JavaScript
+'a'
+"b"
+`c`
+```
+- While single quotes and double quotes are the same, a backtick defines a "string literal"
+- String Literals are evaluated may have portions that is bracketed and evaluates the string at the moment it is called
+	- This is declared as follows using a dollar sign followed by curly brackets `${...}` 
+	- This is similar to Python f-strings
+```JavaScript
+const l = 'literal';
+console.log(`string ${l + (1 + 1)} text`);
+// OUTPUT: string literal2 text
+```
+- JavaScript is Unicode supported meaning it defines a string using a sequence of 16-bit, unsigned integers 
+	- This allows your website to use almost all written languages including those written right to left like Arabic and Hebrew
+	- Here is a link to [W3](https://www.w3.org/mission/internationalization/) to learn how to internationalize your website farther
+- Strings have many functions to modify or gain information from them
+	- more info at [W3](https://www.w3schools.com/js/js_string_methods.asp)
+	- ex
+
+| Function              | Meaning                                                     |
+| --------------------- | ----------------------------------------------------------- |
+| `x.length`            | Returns the number of chars in a string                     |
+| `x.indexOf("...")`    | Returns the index of a given substring                      |
+| `x.split("...")`      | Splits the string into an array of strings at the delimiter |
+| `x.startsWith("...")` | Returns true if the string starts with the given substring  |
+| `x.endsWith("...")`   | Returns true if the string ends with the given substring    |
+| `x.toLowerCase()`     | Converts the entire string to lower case                    |
+```JavaScript
+const s = 'Example:조선글';
+
+console.log(s.length);
+// OUTPUT: 11
+console.log(s.indexOf('조선글'));
+// OUTPUT: 8
+console.log(s.split(':'));
+// OUTPUT: ['Example', '조선글']
+console.log(s.startsWith('Ex'));
+// OUTPUT: true
+console.log(s.endsWith('조선글'));
+// OUTPUT: true
+console.log(s.toLowerCase());
+// OUTPUT: example:조선글
+```
+
+### Functions
+- JavaScript functions are "first class functions"
+	- meaning they have names, can be passed as parameters, returned as a result, and referenced from and object or array like any other variable
+- Functions are typically declared using the `function` keyword
+```JavaScript
+function hello(who) {
+  return 'hello ' + who;
+}
+
+console.log(hello('world'));
+// OUTPUT: hello world
+```
+- Functions don't need returns
+	- These functions typically have some side affect like giving a console.log or changing a global variable's value for example
+- When a function is called, the caller can provide parameters, values within the parentheses, to the function
+	- If parameters are not given but expected, those parameters are not given values, they will be assigned `Undefined`
+	- You can also assign a default value to the parameters by using an equal sign after the parameter and giving it a value
+```JavaScript
+function labeler(value, title = 'title') {
+  console.log(`${title}=${value}`);
+}
+
+labeler();
+// OUTPUT: title=undefined
+
+labeler('fish');
+// OUTPUT: title=fish
+
+labeler('fish', 'animal');
+// OUTPUT: animal=fish
+```
+- Functions can be an anonymous function by assigning it to a variable
+	- This allows the function to be given as a parameter in a function or returned from a function
+```JavaScript
+// Function that takes a function as a parameter
+function doMath(operation, a, b) {
+  return operation(a, b);
+}
+
+// Anonymous function assigned to a variable
+const add = function (a, b) {
+  return a + b;
+};
+
+console.log(doMath(add, 5, 3));
+// OUTPUT: 8
+
+// Anonymous function assigned to a parameter
+console.log(
+  doMath(
+    function (a, b) {
+      return a - b;
+    },
+    5,
+    3
+  )
+);
+// OUTPUT: 2
+```
+- Functions can also be created inside other functions giving some more modularity and privacy to functions
+### Arrow Functions
+- Arrow functions were created to remove the need to use the `function` keyword to create anonymous functions
+- They are declared like this `() => {...}`
+	- If the function isn't multiline you don't need the curly brackets
+```JavaScript
+const a = [1, 2, 3, 4];
+
+// standard function syntax
+a.sort(function (v1, v2) {
+  return v1 - v2;
+});
+
+// arrow function syntax
+a.sort((v1, v2) => v1 - v2);
+```
+- There are other constraints to arrow functions like not being used for constructors or iterator generators
+	- I think this is for safety reasons so you can't hack stuff using arrow functions?
+- Arrow functions do not require a `return` if there are no curly brackets and there is only one line
+```JavaScript
+() => 3;
+// RETURNS: 3
+
+() => {
+  3;
+};
+// RETURNS: undefined
+
+() => {
+  return 3;
+};
+// RETURNS: 3
+```
+- Arrow functions inherit the `this` pointer from the scope in which they are created
+	- This makes a `closure` allowing functions to keep referencing their created scope
+```JavaScript
+function makeClosure(a) {
+  a = 'a2';
+  const b = 'b2';
+  return () => [a, b]; //This arrow function will continue to reference the a and b variables in the scope of the makeClosure function
+}
+
+const a = 'a';
+const b = 'b';
+
+const closure = makeClosure(a);
+
+console.log(closure());
+// OUTPUT: ['a2', 'b2']
+// values from the make closure function
+
+console.log(a, b);
+// OUTPUT: 'a' 'b'
+```
+- Here is an example of a `debounce` function that helps manage spammed inputs from a user
+	- This listens to the `scroll` event and gives a 500 second cooldown between scrolls  and clears the countdown if another scroll event happens
+```JavaScript
+window.addEventListener(
+  'scroll',
+  debounce(500, () => {
+    console.log('Executed an expensive calculation');
+  })
+);
+
+function debounce(windowMs, windowFunc) {
+  let timeout;
+  return function () {
+    console.log('scroll event');
+    clearTimeout(timeout);
+    timeout = setTimeout(() => windowFunc(), windowMs);
+  };
+}
+```
+
+### Arrays
+- 
