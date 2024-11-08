@@ -1,4 +1,24 @@
+Sections to fill out 
+1. JS Classes and Objects
+2. RegEx
+3. Rest and Spread
+4. Exceptions
+5. Destructing
+6. Scope
+7. Modules
+8. DOM
+9. Local Storage
+10. Promises, Async, Await
+11. Debugging
+12. Node.js
+13. Debugging Node.js
 # Notes for CS 260
+## Table of Contents (Not Done)
+1) [Console Commands](#console)
+2) [Git & Github](#git-and-github)
+3) [Tech Stack](#tech-stack)
+4) [AWS](#aws)
+5) 
 
 ## Console Commands to know
 - All these Commands are POSIX compliant
@@ -71,7 +91,7 @@
 |  CTRL-wv  |              Split window verically              |
 |  CTRL-ww  |                  Toggle windows                  |
 |  CTRL-wq  |               Close current window               |
-## Git & GitHub
+## Git and GitHub
 - it is easiest to create a repo on GitHub then clone it than push a new repo to GitHub
 - clone from GitHub 
    - `git clone https://github.com/url-to-repo-on-github`
@@ -789,7 +809,7 @@ Block comments
 - Semicolons signal the end of a line
 	- They are not necessary but will aid in code readability
 - `{}` define a scope which has implications for variables, if they are seen or not
-### Console
+### JS Console
 - JavaScript console gives programers flexibility in debugging
 	- It's similar to the terminal or command line on a computer but is it's own distinct object in JavaScript
 - The console object provides functionality for outputting the value of text and objects, running timers, and counting iterations
@@ -1168,4 +1188,589 @@ function debounce(windowMs, windowFunc) {
 ```
 
 ### Arrays
-- 
+- An array is list of objects or primitives
+	- declared like a variable with a `[...]` on the right side of the equal sign
+- Here is a list of functions you can do with arrays
+
+|Function|Meaning|Example|
+|---|---|---|
+|push|Add an item to the end of the array|`a.push(4)`|
+|pop|Remove an item from the end of the array|`x = a.pop()`|
+|slice|Return a sub-array|`a.slice(1,-1)`|
+|sort|Run a function to sort an array in place|`a.sort((a,b) => b-a)`|
+|values|Creates an iterator for use with a `for of` loop|`for (i of a.values()) {...}`|
+|find|Find the first item satisfied by a test function|`a.find(i => i < 2)`|
+|forEach|Run a function on each array item|`a.forEach(console.log)`|
+|reduce|Run a function to reduce each array item to a single item|`a.reduce((a, c) => a + c)`|
+|map|Run a function to map an array to a new array|`a.map(i => i+i)`|
+|filter|Run a function to remove items|`a.filter(i => i%2)`|
+|every|Run a function to test if all items match|`a.every(i => i < 3)`|
+|some|Run a function to test if any items match|`a.some(i => i < 1)`|
+- example of some of the functions
+```JavaScript
+const a = [1, 2, 3];
+
+console.log(a.map((i) => i + i));
+// OUTPUT: [2,4,6]
+console.log(a.reduce((v1, v2) => v1 + v2));
+// OUTPUT: 6
+console.log(a.sort((v1, v2) => v2 - v1));
+// OUTPUT: [3,2,1]
+
+a.push(4);
+console.log(a.length);
+// OUTPUT: 4
+```
+
+### JSON
+- JSON stands for 'JavaScript Object Notation'
+	- JSON is used as a way to pass JavaScript objects as text strings and can be easy to convert to and from
+- JSON allows 6 different data types
+
+| Type    | Example                 |
+| ------- | ----------------------- |
+| string  | "crockford"             |
+| number  | 42                      |
+| boolean | true                    |
+| array   | [null,42,"crockford"]   |
+| object  | {"a":1,"b":"crockford"} |
+| null    | null                    |
+- Most of the time JSON contains an object with key/value pairs
+	- The key must be a string but the value can any valid data type
+- Here is an example of a JSON doc
+```JavaScript
+{
+  "class": {
+    "title": "web programming",
+    "description": "Amazing"
+  },
+  "enrollment": ["Marco", "Jana", "فَاطِمَة"],
+  "start": "2025-02-01",
+  "end": null
+}
+```
+- You can convert to and from JSON and JavaScript using `JSON.parse` and `JSON.stringify`
+```JavaScript
+const obj = { a: 2, b: 'crockford', c: undefined };
+const json = JSON.stringify(obj);
+const objFromJson = JSON.parse(json);
+
+console.log(obj, json, objFromJson);
+
+// OUTPUT:
+// {a: 2, b: 'crockford', c: undefined}
+// {"a":2, "b":"crockford"}
+// {a: 2, b: 'crockford'}
+```
+
+### Object
+- JS objects is a collection of name value pairs where the name is a string and the value can be anything
+	- bool, string, objects, functions, etc...
+- Objects also have other object-oriented functionalities like a constructor, a `this` pointer, static properties and functions, and inheritance
+- You can also add properties to classes by referencing the new properties name and it's value
+- You can call properties using two different syntaxes
+	- `obj.prop` or `obj['prop']`
+- ⚠️ The term 'object' can refer to three different things in JS
+	- Standard JS Objects: Promise, Map, Object, Function, Date, ...
+	- JS 'Object' object: `= new Object({...});`
+	- JS object created using object literal syntax `const obj = {...};`
+- Objects also have some static functions as well
+	- some examples
+
+|Function|Meaning|
+|---|---|
+|entries|Returns an array of key value pairs|
+|keys|Returns an array of keys|
+|values|Returns an array of values|
+```JavaScript
+const obj = {
+  a: 3,
+  b: 'fish',
+};
+
+console.log(Object.entries(obj));
+// OUTPUT: [['a', 3], ['b', 'fish']]
+console.log(Object.keys(obj));
+// OUTPUT: ['a', 'b']
+console.log(Object.values(obj));
+// OUTPUT: [3, 'fish']
+```
+- A constructor is any function that returns an object and can be invoked with the `new` operator
+```JavaScript
+function Person(name) {
+  return {
+    name: name,
+    log: function () {
+      console.log('My name is ' + this.name);
+    },
+  };
+}
+
+const p = new Person('Eich');
+p.log();
+// OUTPUT: My name is Eich
+```
+- The `this` keyword is a pointer pointing back to the most recent parent object
+	- Meaning if there is an object nested in another object or if an class inherits from another class, the `this` pointer always points to the object that it is in
+### Classes
+- A class is a type of object that typically get used as reusable components rather than one off objects
+- Using class declaration you are required to explicitly declare a constructor
+```JavaScript
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  log() {
+    console.log('My name is ' + this.name);
+  }
+}
+
+const p = new Person('Eich');
+p.log();
+// OUTPUT: My name is Eich
+```
+- You can also make class components private using the `#` symbol
+```JavaScript
+class Person {
+  #name;
+
+  constructor(name) {
+    this.#name = name;
+  }
+}
+
+const p = new Person('Eich');
+p.#name = 'Lie';
+// OUTPUT: Uncaught SyntaxError: Private field '#name' must be declared in an enclosing class
+```
+- Classes can also inherit from other classes to create more dynamic code
+- To inherit from another class, you have to use the `extends` keyword and use the `super` keyword to pass any parameters back up to the parent component
+```JavaScript
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  print() {
+    return 'My name is ' + this.name;
+  }
+}
+
+class Employee extends Person {
+  constructor(name, position) {
+    super(name);
+    this.position = position;
+  }
+
+  print() {
+    return super.print() + '. I am a ' + this.position;
+  }
+}
+
+const e = new Employee('Eich', 'programmer');
+console.log(e.print());
+// OUTPUT: My name is Eich. I am a programmer
+```
+### Regular Expressions
+### Rest and Spread
+### Exceptions
+### Destructing
+### Scope
+### Modules
+### Document Object Model (DOM)
+### LocalStorage
+### Promises
+### Async/Await
+### Debugging
+### Node.js
+### Debugging Node.js
+## Web Frameworks
+### Intro
+- Web frameworks are tools web developers use to make web developing easier
+	- Many use a combination of HTML, CSS, and JavaScript to create their own file type
+		- Ex React JSX, Vue SFC, and Svelte files
+	- Frameworks help modularizing code, creating single page applications, simplifying reactivity, and supporting diverse hardware devices
+- React is the most popular framework, you can check [here](https://stateofjs.com/en-US)
+- Here are some examples of 4 different styles of web frameworks
+- #### React (JSX and CSS)
+```JSX
+import 'hello.css';
+
+const Hello = () => {
+  let name = 'world';
+
+  return <p>Hello {name}</p>;
+};
+```
+
+```CSS
+p {
+  color: green;
+}
+```
+
+- #### Angular component (JS, CSS, and HTML)
+```JavaScript
+@Component({
+  selector: 'app-hello-world',
+  templateUrl: './hello-world.component.html',
+  styleUrls: ['./hello-world.component.css'],
+})
+export class HelloWorldComponent {
+  name: string;
+  constructor() {
+    this.name = 'world';
+  }
+}
+```
+
+```CSS
+p {
+  color: green;
+}
+```
+
+```HTML
+<p>hello {{name}}</p>
+```
+
+- #### Vue (SFC)
+```SFC
+<script>
+  export default {
+    data() {
+      return {
+        name: 'world',
+      };
+    },
+  };
+</script>
+
+<style>
+  p {
+    color: green;
+  }
+</style>
+
+<template>
+  <p>Hello {{ name }}!</p>
+</template>
+```
+
+- #### Svelte (Svelte file)
+```Svelte
+<script>
+  let name = 'world';
+</script>
+
+<style>
+  p {
+    color: green;
+  }
+</style>
+
+<p>Hello {name}!</p>
+```
+
+## React
+### Intro to React
+- React [MDN](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_getting_started)
+- React was originally created for Facebook's new feed but showed enough strength that it became the framework of Instagram's UI
+- React abstracts HTML and JS into a new file type called JSX, JavaScript XML
+	- All JavaScript function, I believe, can be used in React but React has some extra *flavor*
+	- XML means "Extensible Markup Language" and has similar syntax to HTML
+- JSX will be converted into valid JavaScript using the [Babel](https://babeljs.io/) preprocessor
+- This JSX will be converted to the following JavaScript
+```JSX
+const i = 3;
+const list = (
+  <ol class='big'>
+    <li>Item {i}</li>
+    <li>Item {3 + i}</li>
+  </ol>
+);
+```
+
+```JavaScript
+const i = 3;
+const list = React.createElement(
+  'ol',
+  { class: 'big' },
+  React.createElement('li', null, 'Item ', i),
+  React.createElement('li', null, 'Item ', 3 + i)
+);
+```
+- The `React.createElement` generates DOM elements and monitors the data they represent for changes
+	- If any changes are detected, React will trigger dependent changes
+### React Components
+- React components allow you to modularize the functionality of your application
+	- They act similar to function calls that return HTMl to render
+- They also allow for the reuse of common components
+	- Like reusing a function or creating new instances of classes in Python or other languages
+- Here is an example of a component in JSX, the component code, and the resulting HTML
+```JSX
+function Demo() {
+  const who = 'world';
+  return <b>Hello {who}</b>;
+}
+
+<div>
+  Component: <Demo />
+</div>
+```
+
+```HTML
+<div>Component: <b>Hello world</b></div>
+```
+- Component properties allow you to pass information to the component to render
+```JSX
+function Demo(props) {
+  return <b>Hello {props.who}</b>;
+}
+
+<div>Component: <Demo who="Walke" /><div>
+```
+
+```HTML
+<div>Component: <b>Hello Walke</b></div>
+```
+- You can also call the `.render(varHTML, document.getElement(...))` to render HTML without using components
+```JSX
+const hello = <div>Hello</div>;
+
+ReactDOM.render(hello, document.getElementById('root'));
+```
+### React States
+- Component states can be called using `React.useState` hook function
+	- `.useState` creates a state/variable and a function used to update that variable
+- States can be useful for passing states and the update function to child components in you DOM
+	- Passing a state down to child states can help keep updated information in a parent element to be used later
+- Ex
+```JSX
+const Clicker = () => {
+  const [clicked, updateClicked] = React.useState(false);
+
+  const onClicked = (e) => {
+    updateClicked(!clicked);
+  };
+
+  return <p onClick={(e) => onClicked(e)}>clicked: {`${clicked}`}</p>;
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Clicker />);
+```
+### Router
+- React routers allow for single page applications to be more reactive to the user
+	- The give the impression of displaying multiple html files but actually define one html file that dynamically changes depending on how the user want's routed
+- React doesn't have a router our of the box so there are many different routers to choose from
+	- We use [react-router-dom](https://www.npmjs.com/package/react-router-dom) v6
+	- Make sure you find the right tutorials because there are many different versions that have different tutorials
+		- There is also [react-router](https://www.npmjs.com/package/react-router) which is not the same. It's actually what react-router-dom is derived from but is more complex
+- Here is a basic nav bar using react-router-dom
+```JavaScript
+// Inject the router into the application root DOM element
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  // BrowserRouter component that controls what is rendered
+  // NavLink component captures user navigation requests
+  // Routes component defines what component is routed to
+  <BrowserRouter>
+    <div className='app'>
+      <nav>
+        <NavLink to='/'>Home</Link>
+        <NavLink to='/about'>About</Link>
+        <NavLink to='/users'>Users</Link>
+      </nav>
+
+      <main>
+        <Routes>
+          <Route path='/' element={<Home />} exact />
+          <Route path='/about' element={<About />} />
+          <Route path='/users' element={<Users />} />
+          <Route path='*' element={<Navigate to='/' replace />} />
+        </Routes>
+      </main>
+    </div>
+  </BrowserRouter>
+);
+```
+### Reactivity
+- Reactivity in React is accomplished with three different elements
+	- `prop`, `state`, and `render`
+- When JSX is rendered, React parses the JSX for any `prop` or `state` elements and monitors them
+	- When they are updated, React a uses `render` to render any changes that may have occurred
+- This JSX demonstrates the asynchronous behavior of React
+	- When we call an `updateState`, it does not mean that the updated state is immediately available in the next line of code
+	- This call is asynchronous, meaning it is happening behind the scenes, so it might not be completed by your next line of code
+		- It will happen eventually  `¯\_(ツ)_/¯`
+```JavaScript
+const Survey = () => {
+  const [color, updateColor] = React.useState('#737AB0');
+
+  // When the color changes update the state
+  const onChange = (e) => {
+    updateColor(e.target.value);
+  };
+
+  return (
+    <div>
+      <h1>Survey</h1>
+
+      {/* Pass the Survey color  as a parameter to the Question.
+          When the color changes the Question parameter will also be updated and rendered. */}
+      <Question answer={color} />
+
+      <p>
+        <span>Pick a color: </span>
+        {/* Set the Survey color state as a the value of the color picker.
+            When the color changes, the value will also be updated and rendered. */}
+        <input type='color' onChange={(e) => onChange(e)} value={color} />
+      </p>
+    </div>
+  );
+};
+
+// The Question component
+const Question = ({ answer }) => {
+  return (
+    <div>
+      {/* Answer rerendered whenever the parameter changes */}
+      <p>Your answer: {answer}</p>
+    </div>
+  );
+};
+
+ReactDOM.render(<Survey />, document.getElementById('root'));
+```
+### React Hooks
+- React hooks allow for a function based approach to React instead of a class based approach
+	- There are many different hooks you can use [W3](https://www.w3schools.com/react/react_hooks.asp)
+	- This is becoming the standard way to create reactive webpages
+	- Hooks are created with the `.useState` or `.useEffect` hooks
+- `.useState` creates a state hook that is comprised of a `const` value and an update function
+	- typically looks like `const [value, updateValue] = React.useState(initialValue);`
+	- the `initialValue` can be any value valid in React
+	- You can't change this value directly, you must use the `updateValue` function
+		- `updateValue(newValue)` then the updated value is used after React updates it
+- `useEffect` is called every time a component is rendered. More from [W3](https://www.w3schools.com/react/react_useeffect.asp)
+	- This can be useful for 'clean up' functions or any side effects you want from the function
+	- This `useEffect` console logs 'render' every time the component is rendered or re-rendered and returns the function `cleanup()`
+	- Cleaning up is useful to minimize memory leaks
+		- Some effects require this like timers
+```JavaScript
+function UseEffectHookDemo() {
+  const [count, updateCount] = React.useState(0);
+  React.useEffect(() => {
+    console.log('rendered');
+
+    return function cleanup() {
+      console.log('cleanup');
+    };
+  });
+
+  return <div onClick={() => updateCount(count + 1)}>useEffectExample {count}</div>;
+}
+
+ReactDOM.render(<UseEffectHookDemo />, document.getElementById('root'));
+```
+- Hook dependencies allow the `useEffect` hook to only be called when a specific variable is updated
+	- Think of it as an 'if' statement
+		- Call function 'if' variable is updated
+	- Dependencies are declared using \[] as a second parameter in `useEffect`
+		- `useEffect(() => ... , [dependency])`
+		- If you want the `useEffect` hook to only be called on the component's first render, use empty brackets as your second parameter
+- Hooks can only be called in functional style components and only at the top of the scope of the function
+	- Hooks **cannot** be called in conditionals or loops
+		- This restriction means hooks must be called in the same order each time a component is rendered
+- Here is an example of everything we talked about with these hooks
+	- This `useEffect` is only used when `count1` is updated
+```JavaScript
+function UseEffectHookDemo() {
+  const [count1, updateCount1] = React.useState(0);
+  const [count2, updateCount2] = React.useState(0);
+
+  React.useEffect(() => {
+    console.log(`count1 effect triggered ${count1}`);
+  }, [count1]);
+
+  return (
+    <ol>
+      <li onClick={() => updateCount1(count1 + 1)}>Item 1 - {count1}</li>
+      <li onClick={() => updateCount2(count2 + 1)}>Item 2 - {count2}</li>
+    </ol>
+  );
+}
+
+ReactDOM.render(<UseEffectHookDemo />, document.getElementById('root'));
+```
+
+## Toolchains
+- Toolchains are the set of tools used to create and deploy web projects
+- The toolchain that we use for our React project consists of [GitHub](https://github.com/) as the code repository, [Vite](https://vitejs.dev/) for JSX, TS, development and debugging support, [ESBuild](https://esbuild.github.io/) for converting to ES6 modules and transpiles (with [Babel](https://babeljs.io/docs/en/) underneath), [Rollup](https://rollupjs.org/) for bundling and tree shaking, [PostCSS](https://learn.cs260.click/page/webFrameworks/react/toolChains/toolChains_md) for CSS transpiring, and finally a simple bash script (deployReact.sh) for deployment.
+	- from the course lessons
+
+## Vite
+- We are using Vite to create and bundle our React projects
+- Vite has useful tools for web programming like 
+	- Creating a temporary dev environment to see your website in a browser
+	- Use nonstandard CSS and JS, like Typescript and JSX
+	- Quickly bundle code
+	- Great debugging support
+- Create a quick React app with Vite
+```Bash
+npm create vite@latest demoVite -- --template react
+cd demoVite
+npm install
+npm run dev
+```
+- There are many different files created but the important ones are
+	- index.html
+		- This is the file that contains the `#Root` element for React to attach to 
+		- This also includes the script tag that connects the `src/main.jsx` to the HTML document
+	- src/main.jsx
+		- This is the access point for the React app to connect to `index.html`
+	- src/App.jsx
+		- This is the main location to do your app programming
+	- src/index.css
+		- This is the CSS for the entire application
+	- src/App.css
+		- This is the CSS for the top level app component
+- There are a few different files and folders as well that you typically do not need to directly edit
+	- The `.json` files contain the 'setting' for Node
+	- The `vite.config.js` file in the main folder contains the configuration setting for Vite
+- Any time you need to add extra JS to this project, use the `.jsx` extension for the file because Babel will interpret your files differently based on their extension
+	- To make sure it transpiles correctly use the `.jsx` extension
+- To create a deployable application use 
+```Shell
+npm run build
+```
+- This will create a `dist` directory containing your deployable project
+	- You can then use the `deployReact.sh` to deploy your project to your server
+
+## HTTP Service
+### The Internet
+- The internet, basically, is a net of connected computers, connected with wires, wifi, satellites, etc., that send and receive data from each other
+- When computers want to communicate, they must first have an IP address
+	- For a human readable address, DNS servers provide domain names that can used to query the DNS servers to see if there is an associated IP address to connect to
+	- You can find a website's IP address from the console using the `dig` command
+		- `dig byu.edu` gives `byu.edu.		5755	IN	A	128.187.16.184`
+- When you have the IP address, the computer hops between servers along the network till it finds the server associated with the IP address
+	- You can track this hopping using `traceroute` in the console followed by the DNS domain name
+	- This gives all the IP addresses of the servers you connected to prior to you desired server
+- When sending and receiving files, the computers use the TCP/IP protocol
+	- This protocol covers everything from HTTP down to the physical wires
+	- The top layer is the application, web (HTTP), mail (SMTP), files (FTP), remote shell (SSH), and chat (IRC)
+		- Below application is the file layer which chunks up the data and sends it the data
+			- Below that is the actual internet which finds the server to talk to 
+				- Finally is the physical level including wires and hardware
+- The Layers
+
+|Layer|Example|Purpose|
+|---|---|---|
+|Application|HTTPS|Functionality like web browsing|
+|Transport|TCP|Moving connection information packets|
+|Internet|IP|Establishing connections|
+|Link|Fiber, hardware|Physical connections|
+### Web Servers
