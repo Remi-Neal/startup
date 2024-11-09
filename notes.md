@@ -1,4 +1,5 @@
-Sections to fill out 
+TODO
+1. 
 2. RegEx
 3. Rest and Spread
 4. Exceptions
