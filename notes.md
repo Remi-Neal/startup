@@ -1773,3 +1773,117 @@ npm run build
 |Internet|IP|Establishing connections|
 |Link|Fiber, hardware|Physical connections|
 ### Web Servers
+- Web servers use to be specialized computers you would purchase with all the software you needed
+	- Now, any computer can be a server
+- Most modern programing languages have the ability to serve static files and listen to ports
+	- Example using the 'Go' language
+ 	- Returns the current time using the `api/time
+ ```Go
+package main
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"time"
+)
+
+func getTime(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, time.Now().String())
+}
+
+func main() {
+	// Serve up files found in the public_html directory
+	fs := http.FileServer(http.Dir("./public_html"))
+	http.Handle("/", fs)
+
+	// Dynamically provide data
+	http.HandleFunc("/api/time", getTime)
+
+	// Listen for HTTP requests
+	fmt.Println(http.ListenAndServe(":3000", nil))
+}
+```
+ - Multiple website can be hosted on the same computer using gateways
+ 	- This is done using a gateway/reverse proxy
+ 	- Gateways allow for a server to listen to a single port and direct to different ports on the server depending on the request
+	- We use Caddy to handle proxies and redirecting
+ - Reverse proxies allow for something called microservices
+ - Microservices are singe function services
+ 	- Combining microservices into larger web applications allows you to partician your app and manage server load
+  	- You can run more or less stateless copies of your service on dynamic cloud enviroments
+ - These concepts leads directly into serverless funtionality
+ 	- Serverless design allows you to simply write a function that speaks HTTP
+  	- This function is loaded onto a gateway that directs requests to your function
+   	- The gateway dynamically scales hardware requirments based on the demand
+   	- This reduces web apps into single independent functions
+### Domain names
+ - Domain names is a string that follows specific naming conventions that gets listed in domain name regestries and gets associated with one or more IP addresses
+ 	- One domain name can connect to multiple IP addresses
+  	- This can act as redundency for your web app
+   		- If one server goes down, you can be redirected to another server that hosts the same app
+ 	- You can use the `dig` command plus the domain name to find all the IP addresses associated with your domain
+ -  Domain name anatomy
+ 	- The root domain is the main thing you typically type into a search bar
+  		- This consists of a secondary level domain and a top level domain
+    			- Top level domains are you `.com`, `.org`, etc.
+ 			- Secondary level domains are like your web names like `google`, `github`, ect.
+	- In addition, you can have optional subdomain prefixes
+ 		- Each subdomain can resolve into different IP addresses
+ - You can use the `whois` console command followed by the domain name to get information about the domain registry
+```Bash
+➜  whois byu.edu
+
+Domain Name: BYU.EDU
+
+Registrant:
+	Brigham Young University
+	3009 ITB
+	2027 ITB
+	Provo, UT 84602
+	USA
+
+Administrative Contact:
+	Mark Longhurst
+	Brigham Young University
+	Office of Information Technology
+	1208 ITB
+	Provo, UT 84602
+	USA
+	+1.8014220488
+	markl@byu.edu
+
+Technical Contact:
+	Brent Goodman
+	Brigham Young University
+	Office of Information Technology
+	1203J ITB
+	Provo, UT 84602
+	USA
+	+1.8014227782
+	dnsmaster@byu.edu
+
+Domain record activated:    19-Jan-1987
+Domain record last updated: 11-Jul-2022
+Domain expires:             31-Jul-2025       
+```
+### DNS
+- DNS servers are special servers that hold a registery of known domain names
+	- These servers hold a list and a cache of known domain names and IP addresses
+- All DNS servers reference a handfull of special DNS servers known as 'authorative name servers'
+- DNS database records come in a few flavors but these two are the important ones for us to know
+	- 'A' or address records maps the IP address to the domain name directly
+ 	- 'CNAME' or canonical name records maps one domain to another domain
+  		- This allow the use of multiple domain names for a single web app
+    		- You can use both `byu.com` and it redirects to `byu.edu` leading to the correct IP address
+-  These are the steps a it takes to map to the correct IP address
+	- You browser first checks if it has the correct IP address stored in its cache
+ 	- Next it checks the first DNS server to see if it has the IP address on record or in its cache
+  	- Finally that DNS server will check an authorative name server to see if it has record of the IP address
+   	- If all that fails, you get an unknow domain name error
+- This extensive caching is done to increase the performance of finding the correct server
+- Because there is so much caching, records have a 'time to live', TTL, that tells the cache how long it is allowed to store that record
+	- This is necissary when domain names' information gets updated (like if the IP address associated changes)
+ - Leasing a domain can be expensive and different services provide the opprotunity to buy a domain name and reregester it year after year
+ 	- different domain names cost different amounts
+  	- AWS' Route 53 is one of the websites you can use to get a domain name
