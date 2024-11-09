@@ -1,5 +1,4 @@
 Sections to fill out 
-1. JS Classes and Objects
 2. RegEx
 3. Rest and Spread
 4. Exceptions

@@ -93,6 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "notes.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +103,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for notes"
             }
           },
           {
@@ -111,11 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "notes.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links"
+              "title": "Outgoing links from notes"
             }
           },
           {
@@ -136,9 +138,11 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {},
+              "state": {
+                "file": "notes.md"
+              },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of notes"
             }
           },
           {
@@ -169,7 +173,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "c050203c66f0fdac",
+  "active": "f1c173abb8ce2522",
   "lastOpenFiles": [
     "README.md",
     "notes.md",
