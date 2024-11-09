@@ -19,7 +19,7 @@ Sections to fill out
 3) [Tech Stack](#tech-stack)
 4) [AWS](#aws)
 5) [Caddy](#caddy)
-6) [Web Certs](#web-certificats)
+6) [Web Certs](#web-certificates)
 7) [Editors](#editors)
 #### Programming
 8) [HTML](#html)
