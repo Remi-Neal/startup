@@ -1,9 +1,9 @@
 TODO
 1. 
-2. RegEx
-3. Rest and Spread
-4. Exceptions
-5. Destructing
+2. 
+3. 
+4. 
+5. 
 6. Scope
 7. Modules
 8. DOM
@@ -1387,9 +1387,115 @@ console.log(e.print());
 // OUTPUT: My name is Eich. I am a programmer
 ```
 ### Regular Expressions
+- Regular expressions are natively supported by JS
+	- [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions)	 
+- There are two ways to declare them
+	- Using the `var = new RegEx('regex', 'nonregex?')` (not sure if the second value is correct but the first is)
+ 	- Using a literal `var = /regex/nonregex`
+- The string class has functions that accept regex
+	- `match()`, `replace()`, `search()`, and `split()`
+ 	- You can also use the `test()` function to see if there is a match
+```JavaScript
+const petRegex = /(dog)|(cat)|(bird)/gim;
+const text = 'Both cats and dogs are pets, but not rocks.';
+
+text.match(petRegex);
+// RETURNS: ['cat', 'dog']
+
+text.replace(petRegex, 'animal');
+// RETURNS: Both animals and animals are pets, but not rocks.
+
+petRegex.test(text);
+// RETURNS: true
+```
 ### Rest and Spread
+- The rest syntax in JS allows functions to take any number of unknown values
+	- [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+	- This can be useful when a function can test an array of values
+ 	- It dynamically creates an array from a series of input values
+  	- It can also be useful to protect a function from being called with too many values by collecting the excess values and ignoring them
+```javascript
+function hasNumber(test, ...numbers) {
+  return numbers.some((i) => i === test);
+}
+
+hasNumber(2, 1, 2, 3);
+// RETURNS: true
+```
+- Only the last parameter is can be a 'rest' variable
+- This functionality creates what is called 'variadic functions'
+- Spread is like 'anti-rest'
+	- [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax )
+- Spead takes an iteratable object, like an array or string, and spreads it out into a function parameters
+```javascript
+function person(firstName, lastName) {
+  return { first: firstName, last: lastName };
+}
+
+const p = person(...['Ryan', 'Dahl']);
+console.log(p);
+// OUTPUT: {first: 'Ryan', last: 'Dahl'}
+```
 ### Exceptions
-### Destructing
+- [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch
+- JS exceptions are emplemented using `try`, `catch`, `finale` syntax
+```javascript
+try {
+  // normal execution code
+} catch (err) {
+  // exception handling code
+} finally {
+  // always called code
+}
+```
+- It is tempting to use exception handling for everything but it should be reserved for code braking issues
+	- Try using `if else` statments for common user input issues
+- `try` `catch` blocks are common for 'fallbacks' in code
+	- Fall backs allow for you application to continue to run even if something exceptional happens like you temporaraly unable to access and API or the internet connection drops
+```javascript
+function getScores() {
+  try {
+    const scores = scoringService.getScores();
+    // store the scores so that we can use them later if the network is not available
+    window.localStorage.setItem('scores', scores);
+    return scores;
+  } catch {
+    return window.localStorage.getItem('scores');
+  }
+}
+```
+### Destructuring
+- [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+- De-Structuring, not destructing, pulls items out of existing structures like arrays or objects
+- The syntax is similar to declaring an array except the square brackets are on the left side of the equals sign
+	- You can also use rest syntax to grab the rest of the values not being removed
+```javascript
+const a = [1, 2, 4, 5];
+
+const [b, c, ...others] = a;
+
+console.log(b, c, others);
+// OUTPUT: 1, 2, [4,5]
+```
+- Destructuring objects uses curly brackets and you must specify which values you want to grab
+```Javascript
+const o = { a: 1, b: 'animals', c: ['fish', 'cats'] };
+
+const { a: count, b: type } = o;
+
+console.log(count, type);
+// OUTPUT 1, animals
+```
+- You can also provide values for any missing values from the list or object
+	- Kinda strange but I guess it's incase APIs or users don't add all the needed values
+```javascript
+const { a, b = 22 } = {};
+const [c = 44] = [];
+
+console.log(a, b, c);
+// OUTPUT: undefined, 22, 44
+```
+- You can also use destructuring to reassign variables as well not just making constants
 ### Scope
 ### Modules
 ### Document Object Model (DOM)
