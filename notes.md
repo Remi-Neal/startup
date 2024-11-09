@@ -13,11 +13,25 @@ Sections to fill out
 13. Debugging Node.js
 # Notes for CS 260
 ## Table of Contents (Not Done)
-1) [Console Commands](#console)
+#### Fundimentals
+1) [Console Commands](#console-commands-to-know)
 2) [Git & Github](#git-and-github)
 3) [Tech Stack](#tech-stack)
 4) [AWS](#aws)
-5) 
+5) [Caddy](#caddy)
+6) [Web Certs](#web-certificats)
+7) [Editors](#editors)
+#### Programming
+8) [HTML](#html)
+9) [CSS](#css)
+10) [JavaScript](#javascript)
+### __Midterm__
+12) [Web Frameworks](#web-frameworks)
+13) [React](#react)
+14) [Toolchains](#toolchains)
+15) [Vite](#vite)
+#### Web Connection
+17) [HTTP Service](#http-service)
 
 ## Console Commands to know
 - All these Commands are POSIX compliant
