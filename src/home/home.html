@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Stylesheets -->
+    <link href="stylesheets/main.css" rel="stylesheet"/>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="icon" type="image/x-icon" href="images/website-images/favicon/icons8-book-16.png">
+    <title>Start-Up</title>
+</head>
+<body class="">
+    <header class=""> 
+    <!-- Nav Bar Bootstrap-->
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Codex Vivit</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="history.html">History</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Book List
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="https://archive.org/">Internet Archive</a></li>
+                  <li><a class="dropdown-item" href="https://www.abebooks.com/">AbleBooks</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="book_finder.html">All</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="message_board.html">Message Board</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <a class="nav-link" href="login.htm">Login</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+        <h3 id="about-title">What is Codex Vivit?</h3>
+        <p id="about-section">
+            Codex Vivit is a website designed to help you find books, learn about them, and explore new ideas. 
+            We have a history page where you can learn about the history of books, a message board where you can discuss books with others, 
+            and a book finder where you can find books that you might like.
+        </p>
+        <!-- Make into a carousel -->
+        <img src="https://plus.unsplash.com/premium_photo-1664392455446-1e636959468b?q=80&w=3445&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" height="300"/ alt="Source: https://unsplash.com/photos/united-states-circa-1960s-man-in-library-XqePqNS5Kc4">
+        <div class="link-display">
+            <button onclick="location.href='book_finder.html'">
+                <table>
+                    <tr>
+                        <td>
+                            <img src="../images/website-images/32px-Temp_plate.svg.png" alt="Book Finder">
+                        </td>
+                        <td>
+                            <h3>Book Finder</h3>
+                            <p>Find books that you might like based on your interests.</p>
+                        </td>
+                    </tr>
+                </table>
+            </button>
+            <button onclick="location.href='book_finder.html'">
+                <table>
+                    <tr>
+                        <td>
+                            <img src="../images/website-images/32px-Temp_plate.svg.png" alt="Codex History">
+                        </td>
+                        <td>
+                            <h3>History of the Codex</h3>
+                            <p>Learn more about the history of books and codecies</p>
+                        </td>
+                    </tr>
+                </table>
+            </button>   
+            <button onclick="location.href='message_board.html'">
+                <table>
+                    <tr>
+                        <td>
+                            <img src="../images/website-images/32px-Temp_plate.svg.png" alt="Message Board">
+                        </td>
+                        <td>
+                            <h3>Message Board</h3>
+                            <p>Discuss books with others on our message board.</p>
+                        </td>
+                    </tr>
+                </table>
+            </button>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+<footer>
+    <div class="author-repo">
+        <p><strong>Author: </strong>Remi Manning-Neal</p>
+        <p><strong>Repo: </strong><a href="https://github.com/Remi-Neal/startup">GitHub</a></p>
+    </div>
+    <p><strong>About: </strong>This site was originally created for the completion of BYU's C S 260: Web Programming course</p>
+</footer>
+</html>
