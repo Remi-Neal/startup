@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function MessageBoard () {
+export default function MessageBoard () {
     return (
         <>
             <main>
