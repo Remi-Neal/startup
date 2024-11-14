@@ -1,0 +1,21 @@
+{
+  "name": "startup",
+  "version": "1.0.0",
+  "description": "## Elevator Pitch    As technology sprints into the future, many old knoledge gets left behing and forgotten. Much knowledge never even got the chance to be read. With <ins>Codex Vivit</ins>* we offer a place, using the latest in web technology to find, learn about, and study from antiquarian and rare codecies. Keeping old knowledge alive will give the future a grounding in the past and inspire the next generation.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.4.11"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "react-bootstrap": "^2.10.5"
+  }
+}
