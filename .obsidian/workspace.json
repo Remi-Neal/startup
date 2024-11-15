@@ -20,21 +20,8 @@
               "icon": "lucide-file",
               "title": "notes"
             }
-          },
-          {
-            "id": "a54a2593c8fd6ae2",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.7.6"
-              },
-              "icon": "lucide-file",
-              "title": "Release Notes 1.7.6"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -186,7 +173,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a54a2593c8fd6ae2",
+  "active": "f1c173abb8ce2522",
   "lastOpenFiles": [
     "README.md",
     "notes.md",

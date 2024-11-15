@@ -12,6 +12,7 @@ TODO
 11. Debugging
 12. Node.js
 13. Debugging Node.js
+14. 
 # Notes for CS 260
 ## Table of Contents (Not Done)
 #### Fundimentals
@@ -33,6 +34,7 @@ TODO
 15) [Vite](#vite)
 #### Web Connection
 17) [HTTP Service](#http-service)
+18) [Web Service](#web-service)
 
 ## Console Commands to know
 - All these Commands are POSIX compliant
@@ -2008,3 +2010,29 @@ Domain expires:             31-Jul-2025
  - Leasing a domain can be expensive and different services provide the opprotunity to buy a domain name and reregester it year after year
  	- different domain names cost different amounts
   	- AWS' Route 53 is one of the websites you can use to get a domain name
+### URLs
+- **U**niform **R**esource **L**ocator (URL) represents a web resource
+	- It can be anything, like: web page, font, database, JSON object ...
+- This is the basic syntax for a URL
+	- `<scheme>://<domain name>:<port>/<path>?<parameters>#<anchor>`
+	- You technically provide a username and password before the domain name but this is typically no longer the case except for things like databases
+
+| Part        | Example                              | Meaning                                                                                                                                                                                                                                                                             |
+| ----------- | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Scheme      | https                                | The protocol required to ask for the resource. For web applications, this is usually HTTPS. But it could be any internet protocol such as FTP or MAILTO.                                                                                                                            |
+| Domain name | byu.edu                              | The domain name that owns the resource represented by the URL.                                                                                                                                                                                                                      |
+| Port        | 3000                                 | The port specifies the numbered network port used to connect to the domain server. Lower number ports are reserved for common internet protocols, higher number ports can be used for any purpose. The default port is 80 if the scheme is HTTP, or 443 if the scheme is HTTPS.     |
+| Path        | /school/byu/user/8014                | The path to the resource on the domain. The resource does not have to physically be located on the file system with this path. It can be a logical path representing endpoint parameters, a database table, or an object schema.                                                    |
+| Parameters  | filter=names&highlight=intro,summary | The parameters represent a list of key value pairs. Usually it provides additional qualifiers on the resource represented by the path. This might be a filter on the returned resource or how to highlight the resource. The parameters are also sometimes called the query string. |
+| Anchor      | summary                              | The anchor usually represents a sub-location in the resource. For HTML pages this represents a request for the browser to automatically scroll to the element with an ID that matches the anchor. The anchor is also sometimes called the hash, or fragment ID.                     |
+- You will sometimes hear about URIs and URNs
+- URIs are Uniform Resource Identifiers, 
+	- Two subsets of this are URLs and URNs
+- URN is a Uniform Resource Name
+	- We don't deal with these because they don't specify a web resource 
+## Webservice
+- Webservices represents the "backend" of a web application
+	- It handles all `fetch` requests, stores data, and run functions (`endpoints`/APIs)
+		- Everything you don't want your end user seeing
+- Webservices can also `fetch` data from other webservices that can be sent to the end user
+
