@@ -61,3 +61,10 @@ css project
 - Imported font from Google Fonts to use on the website
 - Made the grid of links on index.html responsive to screen orientation
 - Added favicon to all webpages
+
+React Project
+- Converted all html files to jsx
+- Added a router to render each app component on a single web page
+- Added react hooks to update and store login values
+- Created a conditional display to display a username when logged in
+- Created a dropdown for the username to go to their profile and logout
