@@ -2030,6 +2030,32 @@ Domain expires:             31-Jul-2025
 	- Two subsets of this are URLs and URNs
 - URN is a Uniform Resource Name
 	- We don't deal with these because they don't specify a web resource 
+### Ports
+- Ports are necessary in addition to IP addresses to access a server's service
+	- They allow a single device to support multiple protocols and services
+- Ports can be exposed externally or internally
+	- External ports are available for anyone on the internet to connect to
+	- Internal ports are only available to internal connections like a local wifi connection or only to processes on the device itself
+- While you can use any port of any service, there are standards set by the IANA
+	- Ports 0 to 1023 are for standard protocols (ssh, http, etc)
+	- Ports 1024 to 49151 represent ports assigned to requesting entities 
+		- You are free to use these typically
+	- Ports 49152 to 65535 are considered "dynamic" and can be used to create dynamic connections to a device
+		- Pretty sure these are totally open to use
+-  List of common ports
+
+|Port|Protocol|
+|---|---|
+|20|File Transfer Protocol (FTP) for data transfer|
+|22|Secure Shell (SSH) for connecting to remote devices|
+|25|Simple Mail Transfer Protocol (SMTP) for sending email|
+|53|Domain Name System (DNS) for looking up IP addresses|
+|80|Hypertext Transfer Protocol (HTTP) for web requests|
+|110|Post Office Protocol (POP3) for retrieving email|
+|123|Network Time Protocol (NTP) for managing time|
+|161|Simple Network Management Protocol (SNMP) for managing network devices such as routers or printers|
+|194|Internet Relay Chat (IRC) for chatting|
+|443|HTTP Secure (HTTPS) for secure web requests|
 ## Webservice
 - Webservices represents the "backend" of a web application
 	- It handles all `fetch` requests, stores data, and run functions (`endpoints`/APIs)
