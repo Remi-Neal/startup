@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import Home from './home/home';
 import History from './history/history';
@@ -6,9 +6,63 @@ import BookFinder from './book_finder/book_finder';
 import MessageBoard from './message_board/message_board';
 import Login from './login/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './app.css';
 
 export default function App() {
+    const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
+    const [authState, setAuthState] = React.useState(userName ? true : false);
+
+    React.useEffect(() => {
+        isLoggedIn();
+        console.log('Auth State: ' + authState);
+    }, [userName]);
+
+    function logout() {
+        console.log('Logging out');
+        setAuthState(false);
+        setUserName('');
+    }
+
+    function isLoggedIn(){
+        console.log('Logged in Auth State: ' + authState);
+        if(authState){
+            return (
+                <>
+                    <li className="nav-item dropdown">
+                        <div className="nav-link dropdown-toggle" to="book_finder" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Welcome Master {userName}
+                        </div>
+                        <ul className="dropdown-menu">
+                            <li>
+                                <NavLink className="dropdown-item" to="profile">Profile</NavLink>
+                            </li>
+                            <li>
+                                <button type="button" className="dropdown-item btn btn-dark" onClick={() => logout()}>Logout</button>
+                            </li>
+                        </ul>
+                    </li>
+                </>
+            )
+        } else {
+            return (
+                <NavLink className="nav-link" to="login">Login</NavLink>
+            )
+        }
+    }
+
+    function unknownPath() {
+        return (
+            <>
+                <div>
+                    <h1>404: Page Not Found</h1>
+                    <p>Sorry, the page you are looking for does not exist.</p>
+                    <p>Click <NavLink to='home'>here</NavLink> to return to the home page or <NavLink to="login">here</NavLink> to login.</p>
+                </div>
+            </>
+        );
+    }
+
   return (
     <>
     <BrowserRouter>
@@ -54,20 +108,33 @@ export default function App() {
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
                             <button className="btn btn-outline-success" type="submit">Search</button>
                         </form>
-                        <NavLink className="nav-link" to="login">Login</NavLink>
+                        {isLoggedIn()}
                     </div>
                 </div>
             </nav>
         </header>
-
+        
         <Routes>
             <Route path='/' element={<Home />} />
             <Route path='home' element={<Home />} />
             <Route path='history' element={<History />} />
             <Route path='book_finder' element={<BookFinder />} />
             <Route path='message_board' element={<MessageBoard />} />
-            <Route path='login' element={<Login />} />
-            <Route path='*' element={<Home />} />
+            <Route 
+                path='login' 
+                element={
+                    <Login 
+                        updateLogin={(username, state) => {
+                            setAuthState(state);
+                            setUserName(username);
+                            console.log('Auth State changed to: ' + state);
+                            isLoggedIn();
+                        }} 
+                    />
+                }
+                exact 
+            />
+            <Route path='*' element={unknownPath()} />
         </Routes>
 
         <footer className='footer fixed-bottom bg-light'>
