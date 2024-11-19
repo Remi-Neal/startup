@@ -35,6 +35,7 @@ TODO
 #### Web Connection
 17) [HTTP Service](#http-service)
 18) [Web Service](#web-service)
+19) [Express](#express) 
 
 ## Console Commands to know
 - All these Commands are POSIX compliant
@@ -2184,4 +2185,67 @@ Cookie: myAppCookie=tasty
 	- It handles all `fetch` requests, stores data, and run functions (`endpoints`/APIs)
 		- Everything you don't want your end user seeing
 - Webservices can also `fetch` data from other webservices that can be sent to the end user
+### Fetch
+- [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+- The ability to make HTTP requests from JS is what progressed us from web 1.0 to web 2.0
+	- Fetch is the successor to the XMLHttpRequest API that Microsoft developed
+- Fetch is the preferred way of making HTTP requests from JS
+	- It is part of the browser's JS runtime meaning the JS running in the browsers can make the request
+- The basic fetch request takes a URL and returns a promise
+	- The promise's `.then` takes the asynchronous callback when the url returns content
+```JS
+fetch('https://quote.cs260.click')
+  .then((response) => response.json())
+  .then((jsonResponse) => {
+    console.log(jsonResponse);
+  });
+```
+- The content returned
+```JSON
+{
+  author: 'Kyle Simpson',
+  quote: "There's nothing more permanent than a temporary hack."
+}
+```
+- Doing a POST request you can populate the optional parameters like the HTTP header like this
+```js
+fetch('https://jsonplaceholder.typicode.com/posts', {
+  method: 'POST',
+  body: JSON.stringify({
+    title: 'test title',
+    body: 'test body',
+    userId: 1,
+  }),
+  headers: {
+    'Content-type': 'application/json; charset=UTF-8',
+  },
+})
+  .then((response) => response.json())
+  .then((jsonResponse) => {
+    console.log(jsonResponse);
+  });
+```
 
+### Node Web Service
+- JS, with NodeJS, lets us listen to ports on our computers and set up test servers to develop on
+```js
+const http = require('http');
+const server = http.createServer(function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.write(`<h1>Hello Node.js! [${req.method}] ${req.url}</h1>`);
+  res.end();
+});
+
+server.listen(8080, () => {
+  console.log(`Web service listening on port 8080`);
+});
+```
+- `const http = require('http');` uses NodeJS's built in `http` function to allow us to create a server
+	- This function is called whenever an http request has been made
+- `res.writeHead(200, { 'Content-Type': 'text/html' });` creates a header with a `200` or success response and declares the content type as text or html
+- `res.write('<h1>Hello Node.js!...` writes the text html that gets sent to the browsers
+- `server.listen(8080, () => ...` starts listening to port 8080 and when it receives a request (req) it responds (res) with the function we created with the `http.createServer(...)` function
+- NodeJS and VSCode can be used to debug your server while it is running
+	- You can also use Nodemon to create a better debugging experience
+
+## Express
