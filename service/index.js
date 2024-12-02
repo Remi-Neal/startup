@@ -14,6 +14,10 @@ app.use(`/api`, apiRouter);
 
 let users = {};
 
+function unauthorized(res) {
+    res.status(401).send({ msg: 'Unauthorized' });
+}
+
 
 // Crate new user
 apiRouter.post('/auth/crate', (req, res) => {
@@ -37,7 +41,7 @@ apiRouter.post('/auth/login', async (req, res) => {
         return;
       }
     }
-    res.status(401).send({ msg: 'Unauthorized' });
+    unauthorized(res);
 });
 
 // DeleteAuth logout a user
@@ -62,9 +66,9 @@ apiRouter.post('/searches/save', (req, res) => {
     if(userName in users) {
         users[userName][savedSearches].add(req.body.search);
         res.status(204).end();
+    } else {
+        unauthorized(res);
     }
-    savedSearches.add(req.body.search);
-    res.status(204).end();
 });
 
 // Get saved searches for a user
@@ -72,6 +76,22 @@ apiRouter.get('/searches/get', (req, res) => {
     const userName = req.body.user;
     if(userName in users) {
         res.send(users[userName].savedSearches);
+    } else {
+        unauthorized(res);
     }
-    res.send(savedSearches);
+});
+
+// Delete a saved search for a user
+apiRouter.delete('/searches/delete', (req, res) => {
+    const userName = req.body.user;
+    if(userName in users) {
+        if(users[userName].savedSearches.has(req.body.search)) {
+            users[userName].savedSearches.delete(req.body.search);
+            res.status(204).end();
+        } else {
+            res.status(404).send({ msg: 'Search not found' });
+        }
+    } else {
+        unauthorized(res);
+    }
 });
