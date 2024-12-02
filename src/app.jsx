@@ -9,14 +9,45 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './app.css';
 
+async function callLitergicalCalAPI(lang) {
+    let languages = ["en", "la"];
+    let request;
+    if(languages.includes(lang)) {
+        const litAPI = 'http://calapi.inadiutorium.cz/api/v0/' + lang + '/calendars/default/today';
+        fetch(litAPI)
+            .then(response => response.json())
+            .then(console.log('LitCal: ' + request));
+    } else {
+        fetch('http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today')
+            .then(response => response.json())
+            .then(console.log('LitCal: ' + request));
+    }
+    return request;
+}
+
 export default function App() {
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
     const [authState, setAuthState] = React.useState(userName ? true : false);
-
+    const [litCalLang, setLitCalLang] = React.useState('en');
+    
     React.useEffect(() => {
         isLoggedIn();
         console.log('Auth State: ' + authState);
     }, [userName]);
+
+    function litCalHTML(){
+        const litCal = callLitergicalCalAPI(litCalLang);
+        return (
+            console.log('LitCal: ' + litCal),
+            <>
+                <h2>Litergical Calendar</h2>
+                <div>
+                    {console.log('Season: ' + litCal.season)}
+                    <p>{litCal.season}</p>
+                </div>
+            </>
+        );
+    }
 
     function logout() {
         console.log('Logging out');
@@ -113,6 +144,7 @@ export default function App() {
                 </div>
             </nav>
         </header>
+        {litCalHTML()}
         
         <Routes>
             <Route path='/' element={<Home />} />
