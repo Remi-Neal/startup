@@ -150,7 +150,7 @@ export default function App() {
             <Route path='/' element={<Home />} />
             <Route path='home' element={<Home />} />
             <Route path='history' element={<History />} />
-            <Route path='book_finder' element={<BookFinder />} />
+            <Route path='book_finder' element={<BookFinder props={userName = userName} />} />
             <Route path='message_board' element={<MessageBoard />} />
             <Route 
                 path='login' 

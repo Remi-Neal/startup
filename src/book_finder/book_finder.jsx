@@ -1,17 +1,36 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
-export default function BookFinder() {
+export default function BookFinder(props) {
+    const [user, setUser] = useState(props.userName);
+    const [search, setSearch] = useState('');
+
+    React.useEffect(() => {
+        fetch('/api/auth/user')
+        setUser(user);
+    }, []);
+    
+    const saveSearch = async () => {
+        await fetch('/api/searches/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user: user, search: search }),
+        })
+    }
+
     return (
         <>
             <main>
                 <form method="get" action="book_finder.html">
                     <div>
                         <span>📚</span>
-                        <input type="text" placeholder="Search for books"/>
+                        <input onChange={(e) => setSearch = e.target.value} type="text" placeholder="Search for books"/>
                     </div>
                     <button type="submit">Search</button>
+                    <button type="submit" onClick={saveSearch()}>Save Search</button> /* TODO: Grab search from input */
                 </form>
-                <dii>Third party service</dii>
+                <div>Third party service</div>
                 <div id="results">
                     <h2>Results</h2>
                     <ul>
