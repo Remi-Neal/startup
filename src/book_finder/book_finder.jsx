@@ -3,14 +3,10 @@ import React, {useState, useEffect} from 'react';
 export default function BookFinder(props) {
     const [user, setUser] = useState(props.userName);
     const [search, setSearch] = useState('');
-
-    React.useEffect(() => {
-        fetch('/api/auth/user')
-        setUser(user);
-    }, []);
     
     const saveSearch = async () => {
-        await fetch('/api/searches/save', {
+        console.log('Saving search: ' + search + " for user: " + user);
+        await fetch('/api/search/save', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -25,10 +21,10 @@ export default function BookFinder(props) {
                 <form method="get" action="book_finder.html">
                     <div>
                         <span>📚</span>
-                        <input onChange={(e) => setSearch = e.target.value} type="text" placeholder="Search for books"/>
+                        <input onChange={(e) => setSearch(e.target.value)} type="text" placeholder="Search for books"/>
                     </div>
-                    <button type="submit">Search</button>
-                    <button type="submit" onClick={saveSearch()}>Save Search</button> /* TODO: Grab search from input */
+                    <button type="button">Search</button>
+                    <button type="button" onClick={() => saveSearch()}>Save Search</button> 
                 </form>
                 <div>Third party service</div>
                 <div id="results">

@@ -9,32 +9,37 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './app.css';
 
-async function callLitergicalCalAPI(lang) {
-    let languages = ["en", "la"];
-    let request;
-    if(languages.includes(lang)) {
-        const litAPI = 'http://calapi.inadiutorium.cz/api/v0/' + lang + '/calendars/default/today';
-        fetch(litAPI)
-            .then(response => response.json())
-            .then(console.log('LitCal: ' + request));
-    } else {
-        fetch('http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today')
-            .then(response => response.json())
-            .then(console.log('LitCal: ' + request));
-    }
-    return request;
-}
+
 
 export default function App() {
-    const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
-    const [authState, setAuthState] = React.useState(userName ? true : false);
+    const [currentUser, setCurrentUser] = React.useState(localStorage.getItem('userName') || '');
+    const [userPassword, setUserPassword] = React.useState(localStorage.getItem('userPassword') || '');
+    const [authState, setAuthState] = React.useState(false);
     const [litCalLang, setLitCalLang] = React.useState('en');
     
     React.useEffect(() => {
         isLoggedIn();
         console.log('Auth State: ' + authState);
-    }, [userName]);
+    }, [currentUser]);
 
+    {/* TODO: Add a function to call the Liturgical Calendar API and return the season. */}
+    async function callLitergicalCalAPI(lang) {
+        let languages = ["en", "la"];
+        let request;
+        if(languages.includes(lang)) {
+            const litAPI = 'http://calapi.inadiutorium.cz/api/v0/' + lang + '/calendars/default/today';
+            fetch(litAPI)
+                .then(response => response.json())
+                .then(console.log('LitCal: ' + request));
+        } else {
+            fetch('http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today')
+                .then(response => response.json())
+                .then(console.log('LitCal: ' + request));
+        }
+        return request;
+    }
+
+    {/* Needs to be async */}
     function litCalHTML(){
         const litCal = callLitergicalCalAPI(litCalLang);
         return (
@@ -42,34 +47,73 @@ export default function App() {
             <>
                 <h2>Litergical Calendar</h2>
                 <div>
-                    {console.log('Season: ' + litCal.season)}
                     <p>{litCal.season}</p>
                 </div>
             </>
         );
     }
 
-    function logout() {
-        console.log('Logging out');
-        setAuthState(false);
-        setUserName('');
+    async function logout() {
+        try{
+            fetch('/api/auth/logout', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user: currentUser, password: userPassword }),
+            })
+            .then((response) => response.json())
+            .then(() => {
+                setAuthState(false);
+                setCurrentUser('');
+                setUserPassword('');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userPassword');
+                console.log('Auth State changed to: ' + state);
+                isLoggedIn();
+            });
+        } catch (error) {
+            console.error('Error Unable to logout: ' + error);
+        }
     }
 
+    async function login() {
+        try {
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user: currentUser, password: userPassword }),
+            })
+            .then(response => response.json())
+            .then(() => {
+                setAuthState(true);
+                console.log('Got user and password: ' + currentUser + ' ' + userPassword);
+                console.log('Auth State changed to: ' + authState);
+                isLoggedIn();
+            });
+        }
+        catch (error) {
+            console.error('Error:', error);
+            alert("Error logging in: " + error +"\n Please try again");
+        }
+      }
+
     function isLoggedIn(){
-        console.log('Logged in Auth State: ' + authState);
         if(authState){
             return (
                 <>
                     <li className="nav-item dropdown">
                         <div className="nav-link dropdown-toggle" to="book_finder" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Welcome Master {userName}
+                            Welcome Master {currentUser}
                         </div>
                         <ul className="dropdown-menu">
                             <li>
                                 <NavLink className="dropdown-item" to="profile">Profile</NavLink>
                             </li>
                             <li>
-                                <button type="button" className="dropdown-item btn btn-dark" onClick={() => logout()}>Logout</button>
+                                <button type="button" className="dropdown-item btn btn-dark" onClick={() => updateLogin()}>Logout</button>
                             </li>
                         </ul>
                     </li>
@@ -82,6 +126,16 @@ export default function App() {
         }
     }
 
+    async function updateLogin() {
+        if(!authState) {
+            setCurrentUser(localStorage.getItem['userName']);
+            setUserPassword(localStorage.getItem['userPassword']);
+            login();
+        } else if(authState) {
+           logout();
+        } else { return } {/* Add create account and already logged in situation */}
+    }
+
     function unknownPath() {
         return (
             <>
@@ -92,7 +146,7 @@ export default function App() {
                 </div>
             </>
         );
-    }
+    }    
 
   return (
     <>
@@ -150,21 +204,18 @@ export default function App() {
             <Route path='/' element={<Home />} />
             <Route path='home' element={<Home />} />
             <Route path='history' element={<History />} />
-            <Route path='book_finder' element={<BookFinder props={userName = userName} />} />
+            <Route path='book_finder' element={<BookFinder userName={currentUser} />} />
             <Route path='message_board' element={<MessageBoard />} />
             <Route 
                 path='login' 
                 element={
                     <Login 
-                        updateLogin={(username, state) => {
-                            setAuthState(state);
-                            setUserName(username);
-                            console.log('Auth State changed to: ' + state);
-                            isLoggedIn();
-                        }} 
+                        updateLogin={(currentUser, userPassword, state) => {
+                            updateLogin(username, password, state);
+                        } 
+                        }
                     />
                 }
-                exact 
             />
             <Route path='*' element={unknownPath()} />
         </Routes>
