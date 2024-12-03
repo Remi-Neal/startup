@@ -15,6 +15,19 @@ export default function BookFinder(props) {
         })
     }
 
+    const getSavedSearches = async () => {
+        console.log('Getting saved searches for user: ' + user);
+        const response = await fetch('/api/search/get', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user: user }),
+        });
+        const data = await response.json();
+        console.log(data);
+    }
+
     return (
         <>
             <main>
@@ -26,26 +39,13 @@ export default function BookFinder(props) {
                     <button type="button">Search</button>
                     <button type="button" onClick={() => saveSearch()}>Save Search</button> 
                 </form>
-                <div>Third party service</div>
+                <div>Saved Searches
+                     <span>
+                        <button onClick={() => getSavedSearches()} id="get-saved-searches">Go</button>
+                    </span>
+                </div>
                 <div id="results">
-                    <h2>Results</h2>
-                    <ul>
-                        <li>
-                            <h4>Book 1</h4>
-                            <a href="">Where to find it</a>
-                            <div>Book Description</div>
-                        </li>
-                        <li>
-                            <h4>Book 2</h4>
-                            <a href="">Where to find it</a>
-                            <div>Book Description</div>
-                        </li>
-                        <li>
-                            <h4>Book 3</h4>
-                            <a href="">Where to find it</a>
-                            <div>Book Description</div>
-                        </li>
-                    </ul>
+
                 </div>
                 <div id="store-links">
                     <h2>Find Books at These Locations</h2>

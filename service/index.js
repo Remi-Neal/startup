@@ -55,21 +55,27 @@ apiRouter.post('/auth/login', async (req, res) => {
     const password = req.body.password;
     if (user in users && users[user]['password'] === password) {
         users[user]['token'] = uuid.v4();
-        console.log('Logging in: ' + user['userName'] + ' with token: ' + user['token']);
+        console.log('Logging in: ' + user + ' with token: ' + users[user]['token']);
         res.send({ token: user.token });
         return;
+    } else if (user in users && users[user]['token']) {
+        res.send({ token: users[user]['token'] });
+        return;
     }
-    unauthorized(res);
+    res.send({ msg: 'Invalid login' });
+    return;
 });
 
 // DeleteAuth logout a user
 apiRouter.delete('/auth/logout', (req, res) => {
     const user = req.body.user;
-    if (users[user]) {
-        console.log('Logging out:' + user['userName']);
-        delete users[user][token];
+    if (users[user] && users[user]['token']) {
+        console.log('Logging out:', user);
+        delete users[user]['token'];
         res.status(204).end();
         return;
+    } else if (user in users && !users[user]['token']) {
+        return
     }
     unauthorized(res);
 });

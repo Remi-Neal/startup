@@ -8,6 +8,7 @@ import Login from './login/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './app.css';
+import { response } from 'express';
 
 
 
@@ -20,9 +21,10 @@ export default function App() {
     React.useEffect(() => {
         isLoggedIn();
         console.log('Auth State: ' + authState);
-    }, [currentUser]);
+    }, [authState]);
 
     {/* TODO: Add a function to call the Liturgical Calendar API and return the season. */}
+    {/*}
     async function callLitergicalCalAPI(lang) {
         let languages = ["en", "la"];
         let request;
@@ -39,7 +41,7 @@ export default function App() {
         return request;
     }
 
-    {/* Needs to be async */}
+    {/* Needs to be async *
     function litCalHTML(){
         const litCal = callLitergicalCalAPI(litCalLang);
         return (
@@ -53,6 +55,8 @@ export default function App() {
         );
     }
 
+*/}
+
     async function logout() {
         try{
             fetch('/api/auth/logout', {
@@ -62,22 +66,22 @@ export default function App() {
                 },
                 body: JSON.stringify({ user: currentUser, password: userPassword }),
             })
-            .then((response) => response.json())
-            .then(() => {
-                setAuthState(false);
-                setCurrentUser('');
-                setUserPassword('');
-                localStorage.removeItem('userName');
-                localStorage.removeItem('userPassword');
-                console.log('Auth State changed to: ' + state);
-                isLoggedIn();
-            });
         } catch (error) {
             console.error('Error Unable to logout: ' + error);
         }
+        setAuthState(false);
+        setCurrentUser('');
+        setUserPassword('');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userPassword');
+        localStorage.removeItem('userToken');
+        console.log('User logged out');
+        console.log('Auth State changed to: false');
     }
 
     async function login() {
+        setCurrentUser(localStorage.getItem('userName'));
+        setUserPassword(localStorage.getItem('userPassword'));
         try {
             fetch('/api/auth/login', {
                 method: 'POST',
@@ -85,14 +89,12 @@ export default function App() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ user: currentUser, password: userPassword }),
-            })
-            .then(response => response.json())
-            .then(() => {
-                setAuthState(true);
-                console.log('Got user and password: ' + currentUser + ' ' + userPassword);
-                console.log('Auth State changed to: ' + authState);
-                isLoggedIn();
             });
+            setAuthState(true);
+            console.log('Got user and password: ' + currentUser + ' ' + userPassword);
+            console.log('Auth State changed to: true');
+            alert("Welcome back Master " + currentUser);
+            return; 
         }
         catch (error) {
             console.error('Error:', error);
@@ -113,25 +115,21 @@ export default function App() {
                                 <NavLink className="dropdown-item" to="profile">Profile</NavLink>
                             </li>
                             <li>
-                                <button type="button" className="dropdown-item btn btn-dark" onClick={() => updateLogin()}>Logout</button>
+                                <button type="button" className="dropdown-item btn btn-dark" onClick={() => updateLogin(false)}>Logout</button>
                             </li>
                         </ul>
                     </li>
                 </>
             )
         } else {
-            return (
-                <NavLink className="nav-link" to="login">Login</NavLink>
-            )
+            return <NavLink className="nav-link" to="login">Login</NavLink>
         }
     }
 
-    async function updateLogin() {
-        if(!authState) {
-            setCurrentUser(localStorage.getItem['userName']);
-            setUserPassword(localStorage.getItem['userPassword']);
+    async function updateLogin(state) {
+        if(state) {
             login();
-        } else if(authState) {
+        } else if(!!!state) {
            logout();
         } else { return } {/* Add create account and already logged in situation */}
     }
