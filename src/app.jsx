@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import Home from './home/home';
 import History from './history/history';
@@ -8,7 +8,6 @@ import Login from './login/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './app.css';
-import { response } from 'express';
 
 
 
@@ -16,47 +15,17 @@ export default function App() {
     const [currentUser, setCurrentUser] = React.useState(localStorage.getItem('userName') || '');
     const [userPassword, setUserPassword] = React.useState(localStorage.getItem('userPassword') || '');
     const [authState, setAuthState] = React.useState(false);
-    const [litCalLang, setLitCalLang] = React.useState('en');
     
+    {/*}
     React.useEffect(() => {
         isLoggedIn();
         console.log('Auth State: ' + authState);
     }, [authState]);
-
+    */}
     {/* TODO: Add a function to call the Liturgical Calendar API and return the season. */}
-    {/*}
-    async function callLitergicalCalAPI(lang) {
-        let languages = ["en", "la"];
-        let request;
-        if(languages.includes(lang)) {
-            const litAPI = 'http://calapi.inadiutorium.cz/api/v0/' + lang + '/calendars/default/today';
-            fetch(litAPI)
-                .then(response => response.json())
-                .then(console.log('LitCal: ' + request));
-        } else {
-            fetch('http://calapi.inadiutorium.cz/api/v0/en/calendars/default/today')
-                .then(response => response.json())
-                .then(console.log('LitCal: ' + request));
-        }
-        return request;
-    }
 
-    {/* Needs to be async *
-    function litCalHTML(){
-        const litCal = callLitergicalCalAPI(litCalLang);
-        return (
-            console.log('LitCal: ' + litCal),
-            <>
-                <h2>Litergical Calendar</h2>
-                <div>
-                    <p>{litCal.season}</p>
-                </div>
-            </>
-        );
-    }
 
-*/}
-
+{/*
     async function logout() {
         try{
             fetch('/api/auth/logout', {
@@ -66,6 +35,7 @@ export default function App() {
                 },
                 body: JSON.stringify({ user: currentUser, password: userPassword }),
             })
+            .then((response) => response.json())
         } catch (error) {
             console.error('Error Unable to logout: ' + error);
         }
@@ -89,12 +59,20 @@ export default function App() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ user: currentUser, password: userPassword }),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.token);
+                console.log(data.authenticated);
+                if(data.authenticated) {
+                    alert("Welcome Master " + currentUser);
+                    localStorage.setItem('userToken', data.token);
+                    setAuthState(true);
+                    console.log('Auth State changed to: true');
+                } else {
+                    alert("Invalid login");
+                }
             });
-            setAuthState(true);
-            console.log('Got user and password: ' + currentUser + ' ' + userPassword);
-            console.log('Auth State changed to: true');
-            alert("Welcome back Master " + currentUser);
-            return; 
         }
         catch (error) {
             console.error('Error:', error);
@@ -131,8 +109,10 @@ export default function App() {
             login();
         } else if(!!!state) {
            logout();
-        } else { return } {/* Add create account and already logged in situation */}
-    }
+        } else { return } {/* Add create account and already logged in situation 
+    
+
+*/}
 
     function unknownPath() {
         return (
@@ -191,12 +171,11 @@ export default function App() {
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
                             <button className="btn btn-outline-success" type="submit">Search</button>
                         </form>
-                        {isLoggedIn()}
+                        {/*isLoggedIn()*/}
                     </div>
                 </div>
             </nav>
         </header>
-        {litCalHTML()}
         
         <Routes>
             <Route path='/' element={<Home />} />
@@ -207,12 +186,7 @@ export default function App() {
             <Route 
                 path='login' 
                 element={
-                    <Login 
-                        updateLogin={(currentUser, userPassword, state) => {
-                            updateLogin(username, password, state);
-                        } 
-                        }
-                    />
+                    <Login />
                 }
             />
             <Route path='*' element={unknownPath()} />

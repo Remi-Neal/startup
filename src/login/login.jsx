@@ -15,11 +15,11 @@ export default function Login({updateLogin}) {
             .then(response => response.json())
             .then(data => {
                 if(data.token) {
-                    alert("Welcome Master " + userName);
+                    alert("Account created for " + userName);
                     localStorage.setItem('userToken', data.token);
                     localStorage.setItem('userName', userName);
                     localStorage.setItem('userPassword', password);
-                    updateLogin();
+                    {/*updateLogin(true);*/}
                 } else {
                     alert("Username already exists");
                 }
@@ -42,8 +42,7 @@ export default function Login({updateLogin}) {
             </form>
             <button id = 'login-button' className="btn btn-outline-success" type="submit" onClick={() => {
                                                                                       localStorage.setItem('userName', document.getElementById('username').value);
-                                                                                      localStorage.setItem('userPassword', document.getElementById('password').value);
-                                                                                      updateLogin()}}>
+                                                                                      localStorage.setItem('userPassword', document.getElementById('password').value);}}>
                                                                                         Login
                                                                                       </button>
             <button id = 'create-account-button' className="btn btn-outline-success" type="submit" onClick={() => createAccount()}>Create Account</button>

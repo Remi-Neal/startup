@@ -1,6 +1,23 @@
 import React from 'react';
 
 export default function Home() {
+    const [quote, setQuote] = React.useState('')
+
+    React.useEffect(() =>{
+        callAPI();
+    }, []);
+
+    async function callAPI() {
+        const API = 'https://ron-swanson-quotes.herokuapp.com/v2/quotes';
+        fetch(API)
+        .then((response) => response.json())
+        .then((response) => {
+            console.log('API responce: ' + response);
+            console.log('Reduced:' + response[0]);
+            setQuote(response);
+        });
+    }
+
     return (
         <>
             <main>
@@ -11,7 +28,16 @@ export default function Home() {
                     and a book finder where you can find books that you might like.
                 </p>
 
-                /* Create Carousel with bootstrap */
+                <div id="liturgical-cal">
+                    <h2>Inspirational Quote (a la Ron Swanson)</h2>
+                    <div className="container">
+                        {quote ? (
+                            <p>- {quote}</p>
+                        ):(
+                            <p>Loading...</p>
+                        )}
+                    </div>
+                </div>
 
                 <img src="https://plus.unsplash.com/premium_photo-1664392455446-1e636959468b?q=80&w=3445&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" height="300" alt="Source: https://unsplash.com/photos/united-states-circa-1960s-man-in-library-XqePqNS5Kc4"/>
                 <div className="link-display">

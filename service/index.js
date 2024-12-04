@@ -2,7 +2,7 @@ const express = require('express');
 const uuid = require('uuid');
 const app = express();
 
-const port = process.argv.length > 2 ? process.argv[2] : 3000;
+const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 
 app.listen(port, () => {
@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 let users = {};
+let searches = [];
 
 // Router for service endpoints
 var apiRouter = express.Router();
@@ -56,14 +57,12 @@ apiRouter.post('/auth/login', async (req, res) => {
     if (user in users && users[user]['password'] === password) {
         users[user]['token'] = uuid.v4();
         console.log('Logging in: ' + user + ' with token: ' + users[user]['token']);
-        res.send({ token: user.token });
-        return;
+        res.send({ authenticated: true, token: users[user]['token'] });
     } else if (user in users && users[user]['token']) {
-        res.send({ token: users[user]['token'] });
-        return;
+        res.send({ authenticated: true, token: users[user]['token'] });
+    } else {
+        res.send({ msg: 'Invalid login' });
     }
-    res.send({ msg: 'Invalid login' });
-    return;
 });
 
 // DeleteAuth logout a user
@@ -96,40 +95,41 @@ app.use(function (err, req, res, next) {
 // Save a search for a user
 apiRouter.post('/search/save', async (req, res) => {
     const userName = req.body.user;
+    const search = req.body.search;
     if(userName in users) {
-        if(req.body.search) {
-            users[userName]['savedSearches'].add(req.body.search);
-            console.log(users[userName]['savedSearches']);
+        if(search) {
+            users[userName][String(Object.keys(users[userName]).length + 1)] = search;
+            console.log(users[userName]);
             res.status(204).end();
         } else {
            return
         }
     } else {
-        unauthorized(res);
+        if(search) {
+            users[userName] = {};
+            users[userName]['1'] = search;
+            console.log(users[userName]);
+            res.status(204).end();
+        } else {
+            return
+        }
     }
     });
 
 // Get saved searches for a user
-apiRouter.get('/search/get', async (req, res) => {
-    const userName = req.body.user;
-    if(userName in users) {
-        res.send(users[userName]['savedSearches']);
-    } else {
-        unauthorized(res);
-    }
+apiRouter.get('/search/get', (req, res) => {
+    console.log(users);
+    res.send(users);
 });
 
 // Delete a saved search for a user
 apiRouter.delete('/search/delete', (req, res) => {
     const userName = req.body.user;
+    const search = req.body.search;
     if(userName in users) {
-        if(users[userName].savedSearches.has(req.body.search)) {
-            users[userName].savedSearches.delete(req.body.search);
-            res.status(204).end();
-        } else {
-            res.status(404).send({ msg: 'Search not found' });
-        }
+        users[userName][searches].delete(search);
+        res.status(204).end();
     } else {
-        unauthorized(res);
+        res.status(404).send({ msg: 'Search not found' });
     }
 });
