@@ -2249,3 +2249,140 @@ server.listen(8080, () => {
 	- You can also use Nodemon to create a better debugging experience
 
 ## Express
+### Basics
+- [MDN](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction)
+- Express handles
+	- Routing requests to service endpoints
+	- Manipulating HTTP requests with JSON body content
+	- Generating HTTP responses
+	- and using `middleware` to add extra functionality
+- To create an express app 
+```shell
+$ npm install express
+```
+```JS
+const express = require('express');
+const app = express();
+
+app.listen(8080);
+```
+- The `app.listen()` function tells express which port to listen to for requests
+	- This port doesn't have to be publicly available but can be used as a reverse proxy internally[[
+- The `app` object allows you to take HTTP responses and crate middleware
+- Endpoints can be implemented using routes
+	- App uses REST api structure
+	- Here the `/store/provo` is out route
+	- Using a fetch request from your font end and attaching this route to the end of your domain connects you with the backend express app
+```js
+app.get('/store/provo', (req, res, next) => {
+  res.send({name: 'provo'});
+});
+```
+- Express has three parameters for their callback functions: `req` is the sent request,  `res` is the response from express, and  `next` to call the next function in line if there is more than one function for the same routing
+	- Multiple functions can have the same routing. Express always calls the first listed function first
+- Express supports path parameters by prefixing the path with a `:` 
+	- The value after the colon acts like a variable that can be accessed through the req object
+	- A user or front end can add any value after `/store/` and it will be send back to the user as a json object
+```js
+app.get('/store/:storeName', (req, res, next) => {
+  res.send({name: req.params.storeName});
+});
+```
+```shell
+$ curl localhost:8080/store/orem
+{"name":"orem"}
+```
+- Routes can also have wildcards or full regex expressions in them
+```js
+// Wildcard - matches /store/x and /star/y
+app.put('/st*/:storeName', (req, res) => res.send({update: req.params.storeName}));
+
+// Pure regular expression
+app.delete(/\/store\/(.+)/, (req, res) => res.send({delete: req.params[0]}));
+```
+### Middleware
+- Middleware adds extra functionality to HTTP requests
+- Express has built in middleware but you can add your own as well
+- You can create middleware with this pattern
+```js
+function middlewareName(req, res, next)
+```
+- Call the next function after you are done with your middleware
+- You can also use third party middleware like `cookie-parser`
+```shell
+$ npm install cookie-parser
+```
+```js
+const cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
+
+app.post('/cookie/:name/:value', (req, res, next) => {
+  res.cookie(req.params.name, req.params.value);
+  res.send({cookie: `${req.params.name}:${req.params.value}`});
+});
+
+app.get('/cookie', (req, res, next) => {
+  res.send({cookie: req.cookies});
+});
+```
+- Middleware is also used for error handling using the `err` parameter
+	- Add `err` to catch anything that might cause an error
+```js
+app.use(function (err, req, res, next) {
+  res.status(500).send({type: err.name, message: err.message});
+});
+```
+- Example of full Express app
+```js
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const app = express();
+
+// Third party middleware - Cookies
+app.use(cookieParser());
+
+app.post('/cookie/:name/:value', (req, res, next) => {
+  res.cookie(req.params.name, req.params.value);
+  res.send({cookie: `${req.params.name}:${req.params.value}`});
+});
+
+app.get('/cookie', (req, res, next) => {
+  res.send({cookie: req.cookies});
+});
+
+// Creating your own middleware - logging
+app.use((req, res, next) => {
+  console.log(req.originalUrl);
+  next();
+});
+
+// Built in middleware - Static file hosting
+app.use(express.static('public'));
+
+// Routing middleware
+app.get('/store/:storeName', (req, res) => {
+  res.send({name: req.params.storeName});
+});
+
+app.put('/st*/:storeName', (req, res) => res.send({update: req.params.storeName}));
+
+app.delete(/\/store\/(.+)/, (req, res) => res.send({delete: req.params[0]}));
+
+// Error middleware
+app.get('/error', (req, res, next) => {
+  throw new Error('Trouble in river city');
+});
+
+app.use(function (err, req, res, next) {
+  res.status(500).send({type: err.name, message: err.message});
+});
+
+// Listening to a network port
+const port = 8080;
+app.listen(port, function () {
+  console.log(`Listening on port ${port}`);
+});
+```
+
+## SOP and CORS
