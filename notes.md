@@ -2579,3 +2579,125 @@ async function main() {
 
 main().catch(console.error);
 ```
+
+## Authorization Service
+- Authorization is used in web apps to decide if someone is allowed access your service or to what degree someone has access
+	- i.e. admin vs regular user 
+- The basic authorization structure involves a user to input a username and password
+	- This gets verified against a database of users and passwords
+	- If verified, the server sends back an authorization token that gets stored on the use's device for a length of time, many times as a cookie, then deleted
+	- This token allows the web app to know if the user has been authenticated and doesn't have to be re-authenticated till the token expires
+-  There are any authentication standards like [OAuth](https://en.wikipedia.org/wiki/OAuth), [SAML](https://en.wikipedia.org/wiki/Security_Assertion_Markup_Language), and [OIDC](https://en.wikipedia.org/wiki/OpenID).
+### Authorization Services
+- Many modern apps use third parties to authenticate like Duo or gmail
+- These types of services use `Single Sign One` (SSO) or Federated Login
+	- SSO allows users to use one sign in for multiple apps
+		- ie google sign in using non-google apps like github
+	- Federated Login allows users to log into one serves and be automatically logged into multiple apps
+		- ie logging into gmail and also being logged into google drive
+
+## Account Creation and Login
+- Creating accounts in your app you must have at least two endpoints for your users: create and authenticate/login
+	- You can additionally have a `GetMe` endpoint that checks the user's cookies to see if they have an active auth token that can be used to login with
+- Create's structure
+	- Takes an email and password and returns an auth token and user id if the email isn't already being used
+		- else returns 409 (conflict) status
+- Login structure
+	- Takes an email and password and returns an auth token and user id if the email is valid
+		- else returns 401 (unauthorized) status code
+- GetMe structure
+	- Looks for an auth token in the user's cookies and if found logs the user in
+		- If the token is no longer valid it returns 401 status
+- Service endpoints with these structures, querying a database with usernames, passwords, and auth tokens give an app functionality to create auth states for users
+### UUID
+- You can create auth tokens many ways but node has a package `uuid` that handles the creation of these tokens
+### Securing Passwords
+- You must secure passwords
+- It is a safety concern to save a password without encrypting it first
+	- To do this we can hash the password and look up the password when the user tries to log in 
+	- You can do this using the `bcrypt` package
+```js
+const bcrypt = require('bcrypt');
+
+async function createUser(email, password) {
+  // Hash the password before we insert it into the database
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  const user = {
+    email: email,
+    password: passwordHash,
+    token: uuid.v4(),
+  };
+  await collection.insertOne(user);
+
+  return user;
+}
+```
+### Passing Auth Coins
+- We can pass auth coins using cookies
+- One way to do this in js is using `cookie-parser` 
+- When sharing these tokens you need to make it as secure as possible
+	- We do this by using `httpOnly`, `secure`, and `sameSite`
+		- `httpOnly` tells the browser to only allow JS running in the browser to read this cookie
+		- `secure` requires https to be used when sending cookies back to the server
+		- `sameSite` will only return cookies to the server that generated it
+```js
+const cookieParser = require('cookie-parser');
+
+// Use the cookie parser middleware
+app.use(cookieParser());
+
+apiRouter.post('/auth/create', async (req, res) => {
+  if (await DB.getUser(req.body.email)) {
+    res.status(409).send({ msg: 'Existing user' });
+  } else {
+    const user = await DB.createUser(req.body.email, req.body.password);
+
+    // Set the cookie
+    setAuthCookie(res, user.token);
+
+    res.send({
+      id: user._id,
+    });
+  }
+});
+
+function setAuthCookie(res, authToken) {
+  res.cookie('token', authToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'strict',
+  });
+}
+```
+### Login endpoint
+- Our endpoint needs to take a username and password to login out user
+- From out database we can look up the user and the hashed password
+	- Using `bcrypt.compare` we can see if the given password matches the saved hashed password
+		- Sends 401 if not able to verify
+```js
+app.post('/auth/login', async (req, res) => {
+  const user = await getUser(req.body.email);
+  if (user) {
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      setAuthCookie(res, user.token);
+      res.send({ id: user._id });
+      return;
+    }
+  }
+  res.status(401).send({ msg: 'Unauthorized' });
+});
+```
+### GetMe endpoint
+- We implement the GetMe endpoint in a similar way as login except we look for a cookie with the auth token in it
+```js
+app.get('/user/me', async (req, res) => {
+  authToken = req.cookies['token'];
+  const user = await collection.findOne({ token: authToken });
+  if (user) {
+    res.send({ email: user.email });
+    return;
+  }
+  res.status(401).send({ msg: 'Unauthorized' });
+});
+```
