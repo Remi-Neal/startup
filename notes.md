@@ -36,7 +36,9 @@ TODO
 17) [HTTP Service](#http-service)
 18) [Web Service](#web-service)
 19) [Express](#express) 
-
+20) [SOP and CORS](#sop-and-cors)
+#### Data and Authentication
+21) 
 ## Console Commands to know
 - All these Commands are POSIX compliant
 
@@ -2386,3 +2388,194 @@ app.listen(port, function () {
 ```
 
 ## SOP and CORS
+- [SOP MDN](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)
+- [CORS MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+- SOP or Single Origin Policy is a feature of JS to increase security when making API calls
+	- SOP means that JS can call services that are part of the same domain but not from a different domain
+- CORS or Cross Origin Resource Sharing allows serves to specify which origins outside of it's domain is allowed to access it's endpoints
+	- When accessing a third party API they must have CORS enabled to allow you to access it
+	- Third party serves must sent a `Access-Control-Allow-Origin` header in it's response or else the browser will reject it on a CORS error
+		- A `*` in this header means that any origin can access this service
+
+## Uploading Files
+- If you want to upload files to your server there's a few steps you need to take
+- Frontend
+	- First you need to create an `<input type="file">` element in your html
+		- You can also specify `accepted=".file .extention"` in your `<input>` element to only except certain file types
+	- Next your front end js will select the `<input>` element and upload the file from the input
+```js
+	async function uploadFile(fileInput) {
+  const file = fileInput.files[0];
+  if (file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch('/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      document.querySelector('#upload').src = `/file/${data.file}`;
+    } else {
+      alert(data.message);
+    }
+  }
+}
+```
+- Backend
+	- Your backend needs a way to handle file uploads
+		- We use the `npm` package `multer`
+		- `multer` handles HTTP request, enforces file size, and storing files in an `uploads` directory
+		- The following code also provides `get` endpoints to serve files and  error handling
+```js
+const express = require('express');
+const multer = require('multer');
+
+const app = express();
+
+app.use(express.static('public'));
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: 'uploads/',
+    filename: (req, file, cb) => {
+      const filetype = file.originalname.split('.').pop();
+      const id = Math.round(Math.random() * 1e9);
+      const filename = `${id}.${filetype}`;
+      cb(null, filename);
+    },
+  }),
+  limits: { fileSize: 64000 },
+});
+
+app.post('/upload', upload.single('file'), (req, res) => {
+  if (req.file) {
+    res.send({
+      message: 'Uploaded succeeded',
+      file: req.file.filename,
+    });
+  } else {
+    res.status(400).send({ message: 'Upload failed' });
+  }
+});
+
+app.get('/file/:filename', (req, res) => {
+  res.sendFile(__dirname + `/uploads/${req.params.filename}`);
+});
+
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    res.status(413).send({ message: err.message });
+  } else {
+    res.status(500).send({ message: err.message });
+  }
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+```
+- When constructing web apps, it's better to separate your web app server from your file storage
+	- Creating a non-localized file storage allows you to scale storage separate from the app's demands
+	- If you need multiple servers to serve your app, have a single file storage means all your servers will have the same files to serve
+### AWS S3
+- There are many different storage solutions but AWS' S3 is on of the most popular choices
+- S3 provides 
+	1. It has unlimited capacity
+	2. You only pay for the storage that you use
+	3. It is optimized for global access
+	4. It keeps multiple redundant copies of every file
+	5. You can version the files
+	6. It is performant
+	7. It supports metadata tags
+	8. You can make your files publicly available directly from S3
+	9. You can keep your files private and only accessible to your application
+- You can learn how to use S3 with node.js on [AWS](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/getting-started-nodejs.html)
+
+## Data Services
+- Data services allow servers to store user data persistently
+	- Like user names and passwords
+- Historically SQL databases were the main type but others have come around that have different use cases
+	- Like better support for document, graph, JSON, time, sequence, and key-value pair data
+- Here are some examples of services
+
+|Service|Specialty|
+|---|---|
+|MySQL|Relational queries|
+|Redis|Memory cached objects|
+|ElasticSearch|Ranked free text|
+|MongoDB|JSON objects|
+|DynamoDB|Key value pairs|
+|Neo4J|Graph based data|
+|InfluxDB|Time series data|
+### MongoDB
+- MongoDB uses JSON files as it's main data type
+- MongoDB is a non-relational database meaning there is no ridged structure, like tables of data, or strict rules to follow
+	- You can add or delete data however you like and store different data types
+- MongoDB also has js like syntax making queries visually similar to basic js
+	- Example using a house database
+```JS
+// find all houses
+db.house.find();
+
+// find houses with two or more bedrooms
+db.house.find({ beds: { $gte: 2 } });
+
+// find houses that are available with less than three beds
+db.house.find({ status: 'available', beds: { $lt: 3 } });
+
+// find houses with either less than three beds or less than $1000 a night
+db.house.find({ $or: [(beds: { $lt: 3 }), (price: { $lt: 1000 })] });
+
+// find houses with the text 'modern' or 'beach' in the summary
+db.house.find({ summary: /(modern|beach)/i });
+```
+- You can install MongoDB to your web app using npm
+	- `npm install mongodb`
+- You can either download MongoDB to your server or use a third party service like MongoDB Atlas to host your database
+- Example of a backend calling MongoDB Atlas
+```js
+const { MongoClient } = require('mongodb');
+const config = require('./dbConfig.json');
+
+async function main() {
+  // Connect to the database cluster
+  const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
+  const client = new MongoClient(url);
+  const db = client.db('rental');
+  const collection = db.collection('house');
+
+  // Test that you can connect to the database
+  (async function testConnection() {
+    await client.connect();
+    await db.command({ ping: 1 });
+  })().catch((ex) => {
+    console.log(`Unable to connect to database with ${url} because ${ex.message}`);
+    process.exit(1);
+  });
+
+  // Insert a document
+  const house = {
+    name: 'Beachfront views',
+    summary: 'From your bedroom to the beach, no shoes required',
+    property_type: 'Condo',
+    beds: 1,
+  };
+  await collection.insertOne(house);
+
+  // Query the documents
+  const query = { property_type: 'Condo', beds: { $lt: 2 } };
+  const options = {
+    sort: { score: -1 },
+    limit: 10,
+  };
+
+  const cursor = collection.find(query, options);
+  const rentals = await cursor.toArray();
+  rentals.forEach((i) => console.log(i));
+}
+
+main().catch(console.error);
+```
