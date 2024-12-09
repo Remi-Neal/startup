@@ -8,6 +8,7 @@ import Login from './login/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './app.css';
+import { createAccount, login, logout, checkAuth } from './login/authorization';
 
 
 
@@ -22,10 +23,7 @@ export default function App() {
         console.log('Auth State: ' + authState);
     }, [authState]);
     */}
-    {/* TODO: Add a function to call the Liturgical Calendar API and return the season. */}
 
-
-{/*
     async function logout() {
         try{
             fetch('/api/auth/logout', {
@@ -48,37 +46,6 @@ export default function App() {
         console.log('User logged out');
         console.log('Auth State changed to: false');
     }
-
-    async function login() {
-        setCurrentUser(localStorage.getItem('userName'));
-        setUserPassword(localStorage.getItem('userPassword'));
-        try {
-            fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user: currentUser, password: userPassword }),
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data.token);
-                console.log(data.authenticated);
-                if(data.authenticated) {
-                    alert("Welcome Master " + currentUser);
-                    localStorage.setItem('userToken', data.token);
-                    setAuthState(true);
-                    console.log('Auth State changed to: true');
-                } else {
-                    alert("Invalid login");
-                }
-            });
-        }
-        catch (error) {
-            console.error('Error:', error);
-            alert("Error logging in: " + error +"\n Please try again");
-        }
-      }
 
     function isLoggedIn(){
         if(authState){
@@ -104,15 +71,16 @@ export default function App() {
         }
     }
 
-    async function updateLogin(state) {
-        if(state) {
+    async function updateLogin() {
+        if(!authState) {
             login();
         } else if(!!!state) {
            logout();
-        } else { return } {/* Add create account and already logged in situation 
+            } else { return } {/* Add create account and already logged in situation */}
+        }
     
 
-*/}
+
 
     function unknownPath() {
         return (
@@ -171,7 +139,7 @@ export default function App() {
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
                             <button className="btn btn-outline-success" type="submit">Search</button>
                         </form>
-                        {/*isLoggedIn()*/}
+                        {isLoggedIn()}
                     </div>
                 </div>
             </nav>
