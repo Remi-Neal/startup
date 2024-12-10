@@ -1,5 +1,5 @@
 import React from 'react';
-import { createAccount, login } from './authorization.js';
+import { createAccount, login } from '../../service/authorization.js';
 
 export default function Login({updateLogin}) {
     return (

@@ -8,7 +8,7 @@ import Login from './login/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './app.css';
-import { logout, checkAuth } from './login/authorization';
+import { logout, checkAuth } from '../service/authorization';
 
 
 
