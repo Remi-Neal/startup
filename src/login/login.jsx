@@ -12,12 +12,15 @@ export default function Login({updateLogin}) {
                 <input type="password" id="password"></input><br/>
             </form>
             <button id = 'login-button' className="btn btn-outline-success" type="submit" onClick={() => {
-                                                                                      login(document.getElementById('username').value, document.getElementById('password').value)}}>
+                                                                                        login(document.getElementById('username').value, document.getElementById('password').value);
+                                                                                        updateLogin(T);
+                                                                                    }}>
                                                                                         Login
                                                                                       </button>
             <button id = 'create-account-button' className="btn btn-outline-success" type="submit" onClick={() => {
                                                                                         createAccount(document.getElementById('username').value, document.getElementById('password').value);
                                                                                         login(document.getElementById('username').value, document.getElementById('password').value);
+                                                                                        updateLogin(T)
                                                                                         console.log("Button Clicked");
                                                                                     }}>
                                                                                         Create Account

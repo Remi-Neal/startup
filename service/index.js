@@ -74,12 +74,29 @@ apiRouter.post('/auth/login', async (req, res) => {
         }
     }
     unauthorized();
-    });
+});
 
 // DeleteAuth logout a user
 apiRouter.delete('/auth/logout', (req, res) => {
     res.clearCookie(authCookieName);
     res.status(204).end();
+});
+
+// Check cookie token
+apiRouter.get('/auth/check', async (req, res) => {
+    console.log(req.cookies);
+    const authToken = req.cookies["accessToken"];
+    let user = null;
+    if (authToken) {
+        user = await DB.getUserByToken(authToken);
+    } else {
+        unauthorized(res);
+    }
+    if (user) {
+        res.send({ state: true, userName: user.userName });
+    } else {
+        res.send({ state: false });
+    }
 });
 
 // Return the application's default page if the path is unknown

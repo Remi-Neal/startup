@@ -55,11 +55,26 @@ export async function login(currentUser, userPassword){
 
 // Logout
 export async function logout(){   
-    throw error = new Error('Not implemented');
+    fetch('/api/auth/logout', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user: currentUser, password: userPassword }),
+    })
 }
 
 // Check cookie token
 export async function checkAuth(){
-    throw error = new Error('Not implemented');
+    fetch('/api/auth/check', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        return data;
+    });
 }
 

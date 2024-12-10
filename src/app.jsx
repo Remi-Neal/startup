@@ -8,45 +8,31 @@ import Login from './login/login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './app.css';
-import { createAccount, login, logout, checkAuth } from './login/authorization';
+import { logout, checkAuth } from './login/authorization';
 
 
 
 export default function App() {
     const [currentUser, setCurrentUser] = React.useState(localStorage.getItem('userName') || '');
-    const [userPassword, setUserPassword] = React.useState(localStorage.getItem('userPassword') || '');
     const [authState, setAuthState] = React.useState(false);
     
-    {/*}
     React.useEffect(() => {
-        isLoggedIn();
-        console.log('Auth State: ' + authState);
-    }, [authState]);
-    */}
-
-    async function logout() {
-        try{
-            fetch('/api/auth/logout', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user: currentUser, password: userPassword }),
-            })
-            .then((response) => response.json())
-        } catch (error) {
-            console.error('Error Unable to logout: ' + error);
-        }
-        setAuthState(false);
-        setCurrentUser('');
-        setUserPassword('');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('userPassword');
-        localStorage.removeItem('userToken');
-        console.log('User logged out');
-        console.log('Auth State changed to: false');
-    }
-
+        const fetchAuth = async () => {
+            let {state, userName} = await checkAuth(); {/* TODO: error being thrown here in browser console */}
+            if(state) {
+                setCurrentUser(userName);
+                setAuthState(true);
+                isLoggedIn();
+            } else {
+                setCurrentUser('');
+                setAuthState(false);
+                isLoggedIn();
+            }
+            console.log('Auth State: ' + authState);
+        };
+        fetchAuth();
+    }, []);
+ 
     function isLoggedIn(){
         if(authState){
             return (
@@ -71,13 +57,16 @@ export default function App() {
         }
     }
 
-    async function updateLogin() {
-        if(!authState) {
-            login();
+    async function updateLogin(state) {
+        if(state) {
+            setAuthState(true);
+            isLoggedIn();
         } else if(!!!state) {
-           logout();
-            } else { return } {/* Add create account and already logged in situation */}
-        }
+            logout();
+            setAuthState(false);
+            isLoggedIn();
+        } else { return } {/* Add create account and already logged in situation */}
+    }
     
 
 
