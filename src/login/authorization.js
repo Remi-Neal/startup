@@ -41,7 +41,6 @@ export async function login(currentUser, userPassword){
             if(data.userName) {
                 alert("Welcome Master " + data.userName);
                 localStorage.setItem('userName', data.userName);
-                console.log('Auth State changed to: true');
             } else {
                 alert("Invalid login");
             }
@@ -54,13 +53,13 @@ export async function login(currentUser, userPassword){
 }
 
 // Logout
-export async function logout(){   
+export async function logout(currentUser){   
     fetch('/api/auth/logout', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ user: currentUser, password: userPassword }),
+        body: JSON.stringify({ user: currentUser }),
     })
 }
 
@@ -73,8 +72,6 @@ export async function checkAuth(){
         },
     })
     .then(response => response.json())
-    .then(data => {
-        return data;
-    });
+    .then(data => data);
 }
 

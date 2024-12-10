@@ -18,9 +18,10 @@ export default function App() {
     
     React.useEffect(() => {
         const fetchAuth = async () => {
-            let {state, userName} = await checkAuth(); {/* TODO: error being thrown here in browser console */}
-            if(state) {
-                setCurrentUser(userName);
+            const auth = await checkAuth(); {/* TODO: error being thrown here in browser console */}
+            console.log(auth);
+            if(auth.state) {
+                setCurrentUser(auth.userName);
                 setAuthState(true);
                 isLoggedIn();
             } else {
@@ -60,6 +61,7 @@ export default function App() {
     async function updateLogin(state) {
         if(state) {
             setAuthState(true);
+            console.log('Auth State: ' + authState);
             isLoggedIn();
         } else if(!!!state) {
             logout();
@@ -143,7 +145,7 @@ export default function App() {
             <Route 
                 path='login' 
                 element={
-                    <Login />
+                    <Login updateLogin={updateLogin}/>
                 }
             />
             <Route path='*' element={unknownPath()} />

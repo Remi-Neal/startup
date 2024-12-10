@@ -13,14 +13,14 @@ export default function Login({updateLogin}) {
             </form>
             <button id = 'login-button' className="btn btn-outline-success" type="submit" onClick={() => {
                                                                                         login(document.getElementById('username').value, document.getElementById('password').value);
-                                                                                        updateLogin(T);
+                                                                                        updateLogin(true);
                                                                                     }}>
                                                                                         Login
                                                                                       </button>
             <button id = 'create-account-button' className="btn btn-outline-success" type="submit" onClick={() => {
                                                                                         createAccount(document.getElementById('username').value, document.getElementById('password').value);
                                                                                         login(document.getElementById('username').value, document.getElementById('password').value);
-                                                                                        updateLogin(T)
+                                                                                        updateLogin(true)
                                                                                         console.log("Button Clicked");
                                                                                     }}>
                                                                                         Create Account

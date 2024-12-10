@@ -34,10 +34,6 @@ apiRouter.get('/searches', (_req, res) => {
     res.send({ msg: 'And I can use extentions' });
 });
 
-function unauthorized(res) {
-    res.status(401).send({ msg: 'Unauthorized' });
-}
-
 function setAuthCookie(res, authToken) {
     res.cookie(authCookieName, authToken, {
       secure: true,
@@ -68,12 +64,12 @@ apiRouter.post('/auth/login', async (req, res) => {
     const user = await DB.getUser(req.body.userName);
     if (user) {
         if (await bcrypt.compare(req.body.password, user.password)) {
-        setAuthCookie(res, user.token);
-        res.send({ userName: user.userName });
-        return;
+            setAuthCookie(res, user.token);
+            res.send({ userName: user.userName });
+            return;
         }
-    }
-    unauthorized();
+    } 
+    res.status(401).send({ msg: 'Unauthorized' });
 });
 
 // DeleteAuth logout a user
@@ -90,12 +86,12 @@ apiRouter.get('/auth/check', async (req, res) => {
     if (authToken) {
         user = await DB.getUserByToken(authToken);
     } else {
-        unauthorized(res);
+        res.status(401).send({ msg: 'Unauthorized' });
     }
     if (user) {
-        res.send({ state: true, userName: user.userName });
+        res.send({ state: "TRUE", userName: user.userName });
     } else {
-        res.send({ state: false });
+        res.send({ state: "FALSE" });
     }
 });
 
