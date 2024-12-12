@@ -14,11 +14,11 @@ import { logout, checkAuth } from '../service/authorization';
 
 export default function App() {
     const [currentUser, setCurrentUser] = React.useState(localStorage.getItem('userName') || '');
-    const [authState, setAuthState] = React.useState(false);
-    
+    const [authState, setAuthState] = currentUser !== '' ? React.useState(true) : React.useState(false);
+   {/*} 
     React.useEffect(() => {
         const fetchAuth = async () => {
-            const auth = await checkAuth(); {/* TODO: error being thrown here in browser console */}
+            const auth = await checkAuth(); {/* TODO: error being thrown here in browser console *
             console.log(auth);
             if(auth.state) {
                 setCurrentUser(auth.userName);
@@ -33,7 +33,8 @@ export default function App() {
         };
         fetchAuth();
     }, []);
- 
+    */}
+
     function isLoggedIn(){
         if(authState){
             return (
@@ -56,6 +57,12 @@ export default function App() {
         } else {
             return <NavLink className="nav-link" to="login">Login</NavLink>
         }
+    }
+
+    function messageLink() {
+        if(authState){
+            return <NavLink className="nav-link" to="message_board">Message Board</NavLink>
+        } else { return }
     }
 
     async function updateLogin(state) {
@@ -123,7 +130,7 @@ export default function App() {
                                 </ul>
                             </li>
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="message_board">Message Board</NavLink>
+                                {messageLink()}
                             </li>
                         </ul>
                         <form className="d-flex" role="search">
