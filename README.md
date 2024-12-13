@@ -68,3 +68,14 @@ React Project
 - Added react hooks to update and store login values
 - Created a conditional display to display a username when logged in
 - Created a dropdown for the username to go to their profile and logout
+
+Service Project
+- Called a quote api from the browser and displayed the quote on the home page
+- Created a basic 'save search' feature in Book List that saves searches based on user name
+- Serves those saved searches based on username and displays them in the app
+
+Login Project
+- Created a basic login and log out function
+- Added backend MongoDB to save username, hashed password, and user id token
+- Not being logged in limits you from accessing message board
+
